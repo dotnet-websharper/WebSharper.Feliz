@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Proxies.fs" />
+    <Compile Include="../../Feliz/Types.fs" />
+    <Compile Include="../../Feliz/Key.fs" />
+    <Compile Include="../../Feliz/StyleTypes.fs" />
+    <Compile Include="../../Feliz/ReactTypes.fs" />
+    <Compile Include="../../Feliz/Interop.fs" />
+    <Compile Include="../../Feliz/Colors.fs" />
+    <Compile Include="../../Feliz/Fonts.fs" />
+    <Compile Include="../../Feliz/Transform.fs" />
+    <Compile Include="../../Feliz/Length.fs" />
+    <Compile Include="../../Feliz/Properties.fs" />
+    <Compile Include="../../Feliz/BorderStyle.fs" />
+    <Compile Include="../../Feliz/TextDecorationStyle.fs" />
+    <Compile Include="../../Feliz/TextDecorationLine.fs" />
+    <Compile Include="../../Feliz/TransitionProperty.fs" />
+    <Compile Include="../../Feliz/TransformOrigin.fs" />
+    <Compile Include="../../Feliz/GridTypes.fs" />
+    <Compile Include="../../Feliz/Styles.fs" />
+    <Compile Include="../../Feliz/Svg.fs" />
+    <Compile Include="../../Feliz/Html.fs" />
+    <Compile Include="../../Feliz/React.fs" />
+    <Compile Include="../../Feliz/ReactDOM.fs" />
+    <None Include="Readme.md" />
+    <None Include="wsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../Feliz/Feliz.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="6.1.6.336" />
+    <PackageReference Include="WebSharper.FSharp" Version="6.1.6.336" />
+    <PackageReference Include="WebSharper.React" Version="6.1.1.269" />
+  </ItemGroup>
+</Project>
