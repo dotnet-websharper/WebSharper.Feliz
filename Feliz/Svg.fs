@@ -1289,14 +1289,18 @@ module svg =
         /// top side of the text is rendered at the initial text position.
         static member inline startOfText = Interop.svgAttribute "textAnchor" "start"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textDecoration =
         static member inline none = Interop.svgAttribute "textDecoration" "none"
         static member inline underline = Interop.svgAttribute "textDecoration" "underline"
         static member inline overline = Interop.svgAttribute "textDecoration" "overline"
         static member inline lineThrough = Interop.svgAttribute "textDecoration" "line-through"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type transform =
         /// Defines that there should be no transformation.
         static member inline none = Interop.svgAttribute "transform" "none"
@@ -1444,12 +1448,16 @@ module svg =
         /// displace the pixels of the input image defined in in along the y-axis.
         static member inline R = Interop.svgAttribute "yChannelSelector" "R"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type x =
         static member inline percentage(value: float) = Interop.svgAttribute "x" (unbox<string> value + "%")
         static member inline percentage(value: int) = Interop.svgAttribute "x" (unbox<string> value + "%")
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type y =
         static member inline percentage(value: float) = Interop.svgAttribute "y" (unbox<string> value + "%")
         static member inline percentage(value: int) = Interop.svgAttribute "y" (unbox<string> value + "%")

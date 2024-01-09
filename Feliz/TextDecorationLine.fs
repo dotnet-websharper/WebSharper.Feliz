@@ -3,7 +3,9 @@ namespace Feliz
 open Fable.Core
 open Feliz.Styles
 
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type textDecorationLine =
     static member inline none : ITextDecorationLine = unbox "none"
     static member inline underline : ITextDecorationLine = unbox "underline"

@@ -4,7 +4,9 @@ open System
 open Fable.Core
 open Feliz.Styles
 
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type style =
     /// The zIndex property sets or returns the stack order of a positioned element.
     ///
@@ -2662,13 +2664,17 @@ type style =
 [<Erase>]
 module style =
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type boxShadow =
         static member inline none = Interop.mkStyle "boxShadow" "none"
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "boxShadow" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type width =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "width" "inherit"
@@ -2686,7 +2692,9 @@ module style =
         /// The intrinsic minimum width.
         static member inline minContent = Interop.mkStyle "width" "min-content"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type minWidth =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "minWidth" "inherit"
@@ -2704,7 +2712,9 @@ module style =
         /// The intrinsic minimum width.
         static member inline minContent = Interop.mkStyle "minWidth" "min-content"
 
+     #if !JAVASCRIPT
      [<Erase>]
+     #endif
     type maxWidth =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "maxWidth" "inherit"
@@ -2722,7 +2732,9 @@ module style =
         /// The intrinsic minimum width.
         static member inline minContent = Interop.mkStyle "maxWidth" "min-content"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type height =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "height" "inherit"
@@ -2740,7 +2752,9 @@ module style =
         /// The intrinsic minimum height.
         static member inline minContent = Interop.mkStyle "height" "min-content"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type minHeight =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "minHeight" "inherit"
@@ -2758,7 +2772,9 @@ module style =
         /// The intrinsic minimum height.
         static member inline minContent = Interop.mkStyle "minHeight" "min-content"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type maxHeight =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "maxHeight" "inherit"
@@ -2776,7 +2792,9 @@ module style =
         /// The intrinsic minimum height.
         static member inline minContent = Interop.mkStyle "maxHeight" "min-content"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textJustify =
         /// The browser determines the justification algorithm
         static member inline auto = Interop.mkStyle "textJustify" "auto"
@@ -2790,7 +2808,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "textJustify" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type whitespace =
         /// Sequences of whitespace will collapse into a single whitespace. Text will wrap when necessary. This is default.
         static member inline normal = Interop.mkStyle "whiteSpace" "normal"
@@ -2808,7 +2828,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "whiteSpace" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type wordBreak =
         /// Default value. Uses default line break rules.
         static member inline normal = Interop.mkStyle "wordBreak" "normal"
@@ -2823,7 +2845,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "wordBreak" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type scrollBehavior =
         /// Allows a straight jump "scroll effect" between elements within the scrolling box. This is default
         static member inline auto = Interop.mkStyle "scrollBehavior" "auto"
@@ -2834,7 +2858,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "scrollBehavior" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type overflow =
         /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
         static member inline visible = Interop.mkStyle "overflow" "visible"
@@ -2849,7 +2875,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "overflow" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type overflowX =
         /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
         static member inline visible = Interop.mkStyle "overflowX" "visible"
@@ -2864,7 +2892,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "overflowX" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textOrientation =
         /// The characters are rotated 90° clockwise. This is the default value of this property.
         static member inline mixed = Interop.mkStyle "textOrientation" "mixed"
@@ -2898,7 +2928,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "visibility" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type flexBasis =
         /// Default value. The length is equal to the length of the flexible item. If the item has
         /// no length specified, the length will be according to its content.
@@ -2908,7 +2940,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "flexBasis" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type flexDirection =
         /// Default value. The flexible items are displayed horizontally, as a row
         static member inline row = Interop.mkStyle "flexDirection" "row"
@@ -2923,7 +2957,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "flexBasis" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type flexWrap =
         /// Default value. Specifies that the flexible items will not wrap.
         static member inline nowrap = Interop.mkStyle "flexWrap" "nowrap"
@@ -2965,7 +3001,9 @@ module style =
         /// Gives the font face an extremely small block period and no swap period.
         static member inline optional = Interop.mkStyle "fontDisplay" "optional"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type fontKerning =
         /// Default. The browser determines whether font kerning should be applied or not
         static member inline auto = Interop.mkStyle "fontKerning" "auto"
@@ -2990,7 +3028,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "fontWeight" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type fontStyle =
         /// The browser displays a normal font style. This is defaut.
         static member inline normal = Interop.mkStyle "fontStyle" "normal"
@@ -3003,7 +3043,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "fontStyle" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type fontVariant =
         /// The browser displays a normal font. This is default
         static member inline normal = Interop.mkStyle "fontVariant" "normal"
@@ -3014,7 +3056,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "fontVariant" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type overflowY =
         /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
         static member inline visible = Interop.mkStyle "overflowY" "visible"
@@ -3029,7 +3073,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "overflowY" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type wordWrap =
         /// Break words only at allowed break points
         static member inline normal = Interop.mkStyle "wordWrap" "normal"
@@ -3493,7 +3539,9 @@ module style =
         /// Inherits this property from its parent element
         static member inline inheritFromParent = Interop.mkStyle "outlineWidth" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type listStyleType =
         /// Default value. The marker is a filled circle
         static member inline disc = Interop.mkStyle "listStyleType" "disc"
@@ -3548,7 +3596,9 @@ module style =
         /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
         static member inline inheritFromParent = Interop.mkStyle "listStyleType" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type listStyleImage =
         /// No image will be displayed. Instead, the list-style-type property will define what type of list marker will be rendered. This is default
         static member inline none = Interop.mkStyle "listStyleImage" "none"
@@ -3563,7 +3613,9 @@ module style =
         /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
         static member inline inheritFromParent = Interop.mkStyle "listStyleImage" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type listStylePosition =
         /// The bullet points will be inside the list item
         static member inline inside = Interop.mkStyle "listStylePosition" "inside"
@@ -3578,7 +3630,9 @@ module style =
         /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
         static member inline inheritFromParent = Interop.mkStyle "listStylePosition" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textAlign =
         /// Aligns the text to the left.
         ///
@@ -3605,7 +3659,9 @@ module style =
         /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
         static member inline inheritFromParent = Interop.mkStyle "textAlign" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textDecorationLine =
         static member inline none = Interop.mkStyle "textDecorationLine" "none"
         static member inline underline = Interop.mkStyle "textDecorationLine" "underline"
@@ -3615,7 +3671,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "textDecorationLine" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textDecoration =
         static member inline none = Interop.mkStyle "textDecoration" "none"
         static member inline underline = Interop.mkStyle "textDecoration" "underline"
@@ -3636,7 +3694,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "transformStyle" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textTransform =
         /// No capitalization. The text renders as it is. This is default.
         static member inline none = Interop.mkStyle "textTransform" "none"
@@ -3650,7 +3710,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "textTransform" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textOverflow =
         /// Default value. The text is clipped and not accessible.
         static member inline clip = Interop.mkStyle "textOverflow" "clip"
@@ -3935,7 +3997,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "backgroundSize" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textDecorationStyle =
         /// Default value. The line will display as a single line.
         ///
@@ -3964,7 +4028,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "textDecorationStyle" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type fontStretch =
         /// Makes the text as narrow as it gets.
         static member inline ultraCondensed = Interop.mkStyle "fontStretch" "ultra-condensed"
@@ -4003,7 +4069,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "float" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type verticalAlign =
         /// The element is aligned with the baseline of the parent. This is default.
         static member inline baseline = Interop.mkStyle "verticalAlign" "baseline"
@@ -4040,7 +4108,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "writingMode" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type animationTimingFunction =
         /// Default value. Specifies a animation effect with a slow start, then fast, then end slowly (equivalent to cubic-bezier(0.25,0.1,0.25,1)).
         static member inline ease = Interop.mkStyle "animationTimingFunction" "ease"
@@ -4065,7 +4135,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "animationTimingFunction" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type transitionTimingFunction =
         /// Default value. Specifies a transition effect with a slow start, then fast, then end slowly (equivalent to cubic-bezier(0.25,0.1,0.25,1)).
         static member inline ease = Interop.mkStyle "transitionTimingFunction" "ease"
@@ -4098,7 +4170,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "transitionTimingFunction" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type userSelect =
         /// Default. Text can be selected if the browser allows it.
         static member inline auto = Interop.mkStyle "userSelect" "auto"
@@ -4113,7 +4187,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "userSelect" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type borderStyle =
         /// Specifies a dotted border.
         ///
@@ -4189,7 +4265,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "tableLayout" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type display =
         /// Displays an element as an inline element (like `<span>`). Any height and width properties will have no effect.
         static member inline inlineElement = Interop.mkStyle "display" "inline"
@@ -4421,7 +4499,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "backgroundClip" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type transform =
         /// Defines that there should be no transformation.
         static member inline none = Interop.mkStyle "transform" "none"
@@ -4561,7 +4641,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "transform" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type margin =
         static member inline auto = Interop.mkStyle "margin" "auto"
 
@@ -4606,7 +4688,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "animationDirection" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type animationPlayState =
         /// Default value. Specifies that the animation is running.
         static member inline running = Interop.mkStyle "animationPlayState" "running"
@@ -4617,7 +4701,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "animationPlayState" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type animationIterationCount =
         /// Specifies that the animation should be played infinite times (forever)
         static member inline infinite = Interop.mkStyle "animationIterationCount" "infinite"
@@ -4642,7 +4728,9 @@ module style =
         /// Inherits this property from its parent element
         static member inline inheritFromParent = Interop.mkStyle "animationFillMode" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type backgroundRepeat =
         /// The background image is repeated both vertically and horizontally. This is default.
         static member inline repeat = Interop.mkStyle "backgroundRepeat" "repeat"
@@ -4657,7 +4745,9 @@ module style =
         /// Inherits this property from its parent element.
         static member inline inheritFromParent = Interop.mkStyle "backgroundRepeat" "inherit"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type position =
         /// Default value. Elements render in order, as they appear in the document flow.
         static member inline defaultStatic = Interop.mkStyle "position" "static"

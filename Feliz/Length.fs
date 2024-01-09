@@ -4,7 +4,9 @@ open Fable.Core
 open Feliz.Styles
 
 /// Specifies a number of specialized CSS units
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type length =
     /// Pixels are (1px = 1/96th of 1in).
     ///

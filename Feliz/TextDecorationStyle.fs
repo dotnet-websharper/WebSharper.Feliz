@@ -3,7 +3,9 @@ namespace Feliz
 open Fable.Core
 open Feliz.Styles
 
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type textDecorationStyle =
     /// Default value. The line will display as a single line.
     ///

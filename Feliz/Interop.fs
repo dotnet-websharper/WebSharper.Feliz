@@ -1,8 +1,19 @@
 namespace Feliz
 
+#if JAVASCRIPT
+open WebSharper
+open WebSharper.JavaScript
+open WebSharper.React
+[<AutoOpen>]
+module internal CoreProxy =
+    let [<Inline>] jsNative<'a> = Unchecked.defaultof<'a>
+    let createObj = New
+    let (==>) (key: string) v = key,v :> obj 
+#else
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
+#endif
 open Feliz.ReactApi
 
 [<RequireQualifiedAccess>]
@@ -59,14 +70,26 @@ module DateParsing =
 
 [<RequireQualifiedAccess>]
 module Interop =
-    let reactApi : IReactApi = importDefault "react"
+    let reactApi : IReactApi = 
+        #if JAVASCRIPT
+        JS.ImportDefault
+        #else
+        importDefault
+        #endif 
+            "react"
     #if FABLE_COMPILER_3 || FABLE_COMPILER_4
     let inline reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
+    #elif JAVASCRIPT
+    let [<Inline>] reactElement (name: string) (props: 'a) : ReactElement = JS.Import("createElement","react")
     #else
     let reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
     #endif
     let inline mkAttr (key: string) (value: obj) : IReactProperty = unbox (key, value)
+    #if JAVASCRIPT
+    [<Inline "undefined">]
+    #else
     [<Emit "undefined">]
+    #endif
     let undefined : obj = jsNative
     let inline mkStyle (key: string) (value: obj) : IStyleAttribute = unbox (key, value)
     let inline svgAttribute (key: string) (value: obj) : ISvgAttribute = unbox (key, value)
@@ -79,5 +102,9 @@ module Interop =
     let inline createSvgElement name (properties: ISvgAttribute list) : ReactElement =
         reactElement name (createObj !!properties)
 
+    #if JAVASCRIPT
+    [<Inline "typeof $x === 'number'">]
+    #else
     [<Emit "typeof $0 === 'number'">]
+    #endif
     let isTypeofNumber (x: obj) : bool = jsNative

@@ -106,7 +106,9 @@ module PropHelpers =
         |> String.concat System.Environment.NewLine
 
 /// Represents the native Html properties.
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type prop =
     /// List of types the server accepts, typically a file type.
     static member inline accept (value: string) = Interop.mkAttr "accept" value
@@ -2110,7 +2112,9 @@ type prop =
 
 module prop =
     /// Controls whether or not an animation is cumulative.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type accumulate =
         /// Specifies that repeat iterations are not cumulative.
         static member inline none = Interop.mkAttr "accumulate" "none"
@@ -2119,7 +2123,9 @@ module prop =
         static member inline sum = Interop.mkAttr "accumulate" "sum"
 
     /// Controls whether or not an animation is additive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type additive =
         /// Specifies that the animation will override the underlying value of
         /// the attribute and other lower priority animations.
@@ -2129,7 +2135,9 @@ module prop =
         static member inline sum = Interop.mkAttr "additive" "sum"
 
     /// Controls whether or not an animation is additive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type alignmentBaseline =
         /// Uses the dominant baseline choice of the parent. Matches the box’s
         /// corresponding baseline to that of its parent.
@@ -2175,7 +2183,9 @@ module prop =
         static member inline top = Interop.mkAttr "alignment-baseline" "top"
 
     /// Specifies a feature policy for the <iframe>.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type allow =
         /// Controls whether the current document is allowed to gather information about the acceleration of
         /// the device through the Accelerometer interface.
@@ -2279,7 +2289,9 @@ module prop =
     /// Indicates whether user input completion suggestions are provided.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-autocomplete
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaAutocomplete =
         /// A list of choices appears and the currently selected suggestion also
         /// appears inline.
@@ -2296,7 +2308,9 @@ module prop =
     /// other widgets. See related `aria-pressed` and `aria-selected`.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-checked
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaChecked =
         /// Indicates a mixed mode value for a tri-state checkbox or
         /// `menuitemcheckbox`.
@@ -2311,7 +2325,9 @@ module prop =
     /// dependent on the object being dragged.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-dropeffect
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaDropEffect =
         /// A duplicate of the source object will be dropped into the target.
         static member inline copy = Interop.mkAttr "aria-dropeffect" "copy"
@@ -2338,7 +2354,9 @@ module prop =
     /// the application.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-invalid
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaInvalid =
         /// A grammatical error was detected.
         static member inline grammar = Interop.mkAttr "aria-invalid" "grammar"
@@ -2350,7 +2368,9 @@ module prop =
     /// from the live region.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-live
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaLive =
         /// Indicates that updates to the region have the highest priority and
         /// should be presented the user immediately.
@@ -2366,7 +2386,9 @@ module prop =
     /// Indicates whether the element and orientation is horizontal or vertical.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-orientation
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaOrientation =
         /// The element is oriented horizontally.
         static member inline horizontal = Interop.mkAttr "aria-orientation" "horizontal"
@@ -2377,7 +2399,9 @@ module prop =
     /// `aria-checked` and `aria-selected`.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-pressed
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaPressed =
         /// Indicates a mixed mode value for a tri-state toggle button.
         static member inline mixed = Interop.mkAttr "aria-pressed" "mixed"
@@ -2387,7 +2411,9 @@ module prop =
     /// related `aria-atomic`.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-relevant
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaRelevant =
         /// Element nodes are added to the DOM within the live region.
         static member inline additions = Interop.mkAttr "aria-relevant" "additions"
@@ -2404,7 +2430,9 @@ module prop =
     /// descending order.
     ///
     /// https://www.w3.org/WAI/PF/aria-1.1/states_and_properties#aria-sort
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type ariaSort =
         /// Items are sorted in ascending order by this column.
         static member inline ascending = Interop.mkAttr "aria-sort" "ascending"
@@ -2420,7 +2448,9 @@ module prop =
     /// It specifies the type of content being loaded by the <link>, which is necessary for request matching,
     /// application of correct content security policy, and setting of correct Accept request header.
     /// Furthermore, rel="preload" uses this as a signal for request prioritization.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type as' =
         /// Applies to <audio> elements.
         static member inline audio = Interop.mkAttr "as" "audio"
@@ -2450,7 +2480,9 @@ module prop =
         /// Applies to Worker and SharedWorker.
         static member inline worker = Interop.mkAttr "as" "worker"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type autoCapitalize =
         /// All letters should default to uppercase
         static member inline characters = Interop.mkAttr "autoCapitalize" "characters"
@@ -2462,7 +2494,9 @@ module prop =
         static member inline words = Interop.mkAttr "autoCapitalize" "words"
 
     /// Specifies the interpolation mode for the animation.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type calcMode =
         /// Specifies that the animation function will jump from one value to the next
         /// without any interpolation.
@@ -2488,7 +2522,9 @@ module prop =
         static member inline spline = Interop.mkAttr "calcMode" "spline"
 
     /// Specifies that new files should be captured by the device
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type capture =
         /// The user-facing camera and/or microphone should be used.
         static member inline user = Interop.mkAttr "capture" "user"
@@ -2496,12 +2532,16 @@ module prop =
         /// The outward-facing camera and/or microphone should be used
         static member inline environment = Interop.mkAttr "capture" "environment"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type charset =
         static member inline utf8 = Interop.mkAttr "charSet" "UTF-8"
 
     /// Indicates which coordinate system to use for the contents of the <clipPath> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type clipPath =
         /// Indicates that all coordinates inside the <clipPath> element refer to the user
         /// coordinate system as defined when the clipping path was created.
@@ -2515,7 +2555,9 @@ module prop =
         static member inline objectBoundingBox = Interop.mkAttr "clipPath" "objectBoundingBox"
 
     /// Indicates which coordinate system to use for the contents of the <clipPath> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type clipRule =
         /// Determines the "insideness" of a point in the shape by drawing a ray from that
         /// point to infinity in any direction and counting the number of path segments
@@ -2531,7 +2573,9 @@ module prop =
 
     /// Specifies the color space for gradient interpolations, color animations, and
     /// alpha compositing.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type colorInterpolation =
         /// Indicates that the user agent can choose either the sRGB or linearRGB spaces
         /// for color interpolation. This option indicates that the author doesn't require
@@ -2544,7 +2588,9 @@ module prop =
         static member inline sRGB = Interop.mkAttr "color-interpolation" "sRGB"
 
     /// Specifies the color space for imaging operations performed via filter effects.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type colorInterpolationFilters =
         /// Indicates that the user agent can choose either the sRGB or linearRGB spaces
         /// for color interpolation. This option indicates that the author doesn't require
@@ -2559,7 +2605,9 @@ module prop =
     /// A set of values specifying the coordinates of the hot-spot region.
     ///
     /// The number and meaning of the values depend upon the value specified for the shape attribute
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type coords =
         static member inline rect (left: int, top: int, right: int, bottom: int) =
             Interop.mkAttr "coords"
@@ -2582,7 +2630,9 @@ module prop =
                  (unbox<string> y3))
 
     /// Indicates whether CORS must be used when fetching the resource.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type crossOrigin =
         /// A cross-origin request (i.e. with an Origin HTTP header) is performed, but no credential
         /// is sent (i.e. no cookie, X.509 certificate, or HTTP Basic authentication). If the server
@@ -2596,7 +2646,9 @@ module prop =
         static member inline useCredentials = Interop.mkAttr "crossOrigin" "use-credentials"
 
     /// Indicates the directionality of the element's text.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type dir =
         /// Lets the user agent decide.
         static member inline auto = Interop.mkAttr "dir" "auto"
@@ -2614,7 +2666,9 @@ module prop =
     /// can be used to explicitly set the desired scaled-baseline-table.
     /// If there is no baseline table in the nominal font or if the baseline table lacks an entry for the desired baseline,
     /// then the browser may use heuristics to determine the position of the desired baseline.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type dominantBaseline =
         /// The baseline-identifier for the dominant-baseline is set to be alphabetic, the derived baseline-table is constructed
         /// using the alphabetic baseline-table in the font, and the baseline-table font-size is changed to the value of the
@@ -2671,7 +2725,9 @@ module prop =
         static member inline textTop = Interop.mkAttr "dominantBaseline" "text-top"
 
     /// Indicates the simple duration of an animation.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type dur =
         /// This value specifies the length of the simple duration.
         static member inline clockValue (duration: System.TimeSpan) =
@@ -2687,7 +2743,9 @@ module prop =
     /// Determines how to extend the input image as necessary with color values so
     /// that the matrix operations can be applied when the kernel is positioned at
     /// or near the edge of the input image.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type edgeMode =
         /// Indicates that the input image is extended along each of its borders as
         /// necessary by duplicating the color values at the given edge of the input image.
@@ -2700,7 +2758,9 @@ module prop =
         static member inline wrap = Interop.mkAttr "edgeMode" "wrap"
 
     /// Defines the final state of the SVG animation.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type fill =
         /// Keep the state of the last animation frame.
         static member inline freeze = Interop.mkAttr "fill" "freeze"
@@ -2708,7 +2768,9 @@ module prop =
         static member inline remove = Interop.mkAttr "fill" "remove"
 
     /// Defines the coordinate system for the attributes x, y, width and height in SVG filter elements.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type filterUnits =
         /// x, y, width and height represent values in the current coordinate system that results from
         /// taking the current user coordinate system in place at the time when the <filter> element is
@@ -2720,7 +2782,9 @@ module prop =
         static member inline objectBoundingBox = Interop.mkAttr "filterUnits" "objectBoundingBox"
 
     /// Defines the coordinate system used for attributes specified on SVG gradient elements.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type gradientUnits =
         /// Indicates that the attributes represent values in the coordinate system that results from
         /// taking the current user coordinate system in place at the time when the gradient element
@@ -2738,7 +2802,9 @@ module prop =
         static member inline objectBoundingBox = Interop.mkAttr "gradientUnits" "objectBoundingBox"
 
     /// Defines a pragma directive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type httpEquiv =
         /// Allows page authors to define a content policy for the current page.
         ///
@@ -2761,7 +2827,9 @@ module prop =
         static member inline xUaCompatible = Interop.mkAttr "httpEquiv" "x-ua-compatible"
 
     /// Identifies input for the given filter primitive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type in' =
         /// Represents an image snapshot of the SVG document under the filter region at the time that the
         /// <filter> element was invoked, except only the alpha channel is used.
@@ -2793,7 +2861,9 @@ module prop =
     /// Identifies the second input for the given filter primitive.
     ///
     /// It works exactly like the in attribute.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type in2 =
         /// Represents an image snapshot of the SVG document under the filter region at the time that the
         /// <filter> element was invoked, except only the alpha channel is used.
@@ -2823,7 +2893,9 @@ module prop =
         static member inline strokePaint = Interop.mkAttr "in2" "StrokePaint"
 
     /// Provides a hint to browsers as to the type of virtual keyboard configuration to use when editing this element or its contents.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type inputMode =
         static member inline decimal = Interop.mkAttr "inputMode" "decimal"
         static member inline email = Interop.mkAttr "inputMode" "email"
@@ -2834,7 +2906,9 @@ module prop =
         static member inline url = Interop.mkAttr "inputMode" "url"
 
     /// How the text track is meant to be used.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type kind =
         /// Subtitles provide translation of content that cannot be understood by the viewer. For example dialogue
         /// or text that is not English in an English language film.
@@ -2859,14 +2933,18 @@ module prop =
         static member inline metadata = Interop.mkAttr "kind" "metadata"
 
     /// Controls how the text is stretched into the length defined by the textLength attribute.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type lengthAdjust =
         static member inline spacing = Interop.mkAttr "lengthAdjust" "spacing"
         static member inline spacingAndGlyphs = Interop.mkAttr "lengthAdjust" "spacingAndGlyphs"
 
     /// Defines the coordinate system for the markerWidth and markerUnits attributes
     /// and the contents of the <marker>.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type markerUnits =
         /// Specifies that the markerWidth and markerUnits attributes and the contents of the <marker> element represent
         /// values in a coordinate system which has a single unit equal the size in user units of the current stroke width
@@ -2879,7 +2957,9 @@ module prop =
         static member inline userSpaceOnUse = Interop.mkAttr "markerUnits" "userSpaceOnUse"
 
     /// Indicates which coordinate system to use for the contents of the <mask> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type maskContentUnits =
         /// Indicates that all coordinates inside the <mask> element are relative to the bounding box of the element the
         /// mask is applied to.
@@ -2891,7 +2971,9 @@ module prop =
         static member inline userSpaceOnUse = Interop.mkAttr "maskContentUnits" "userSpaceOnUse"
 
     /// Indicates which coordinate system to use for the geometry properties of the <mask> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type maskUnits =
         /// Indicates that all coordinates for the geometry attributes represent fractions or percentages of the bounding box
         /// of the element to which the mask is applied.
@@ -2903,7 +2985,9 @@ module prop =
         static member inline userSpaceOnUse = Interop.mkAttr "maskUnits" "userSpaceOnUse"
 
     /// Defines the blending mode on the <feBlend> filter primitive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type mode =
         /// The final color has the hue and saturation of the top color, while using the luminosity of the
         /// bottom color.
@@ -2991,7 +3075,9 @@ module prop =
         static member inline softLight = Interop.mkAttr "mode" "soft-light"
 
     /// Defines the blending mode on the <feBlend> filter primitive.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type operator =
         /// This value indicates that the source graphic defined in the in attribute and the
         /// destination graphic defined in the in2 attribute are combined using the following
@@ -3049,7 +3135,9 @@ module prop =
         static member inline xor = Interop.mkAttr "operator" "xor"
 
     /// Indicates which coordinate system to use for the contents of the <pattern> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type patternContentUnits =
         /// Indicates that all coordinates inside the <pattern> element are relative to the bounding box of the element
         /// the pattern is applied to.
@@ -3062,7 +3150,9 @@ module prop =
         static member inline userSpaceOnUse = Interop.mkAttr "patternContentUnits" "userSpaceOnUse"
 
     /// Indicates which coordinate system to use for the geometry properties of the <pattern> element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type patternUnits =
         /// Indicates that all coordinates for the geometry properties represent fractions or percentages of the bounding
         /// box of the element to which the mask is applied.
@@ -3075,7 +3165,9 @@ module prop =
 
     /// Provide a hint to the browser about what the author thinks will lead to the best user experience with regards
     /// to what content is loaded before the video is played.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type preload =
         /// Indicates that the whole video file can be downloaded, even if the user is not expected to use it.
         static member inline auto = Interop.mkAttr "preload" "auto"
@@ -3084,7 +3176,9 @@ module prop =
         /// Indicates that the video should not be preloaded.
         static member inline none = Interop.mkAttr "preload" "none"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type preserveAspectRatio =
         /// Do not force uniform scaling.
         ///
@@ -3100,7 +3194,9 @@ module prop =
         /// Align the <min-x> of the element's viewBox with the smallest X value of the viewport.
         ///
         /// Align the <min-y> of the element's viewBox with the smallest Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMinYMin =
             /// Scale the graphic such that:
             ///
@@ -3132,7 +3228,9 @@ module prop =
         /// Align the midpoint X value of the element's viewBox with the midpoint X value of the viewport.
         ///
         /// Align the <min-y> of the element's viewBox with the smallest Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMidYMin =
             /// Scale the graphic such that:
             ///
@@ -3164,7 +3262,9 @@ module prop =
         /// Align the <min-x>+<width> of the element's viewBox with the maximum X value of the viewport.
         ///
         /// Align the <min-y> of the element's viewBox with the smallest Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMaxYMin =
             /// Scale the graphic such that:
             ///
@@ -3196,7 +3296,9 @@ module prop =
         /// Align the <min-x> of the element's viewBox with the smallest X value of the viewport.
         ///
         /// Align the midpoint Y value of the element's viewBox with the midpoint Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMinYMid =
             /// Scale the graphic such that:
             ///
@@ -3228,7 +3330,9 @@ module prop =
         /// Align the midpoint X value of the element's viewBox with the midpoint X value of the viewport.
         ///
         /// Align the midpoint Y value of the element's viewBox with the midpoint Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMidYMid =
             /// Scale the graphic such that:
             ///
@@ -3260,7 +3364,9 @@ module prop =
         /// Align the <min-x>+<width> of the element's viewBox with the maximum X value of the viewport.
         ///
         /// Align the midpoint Y value of the element's viewBox with the midpoint Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMaxYMid =
             /// Scale the graphic such that:
             ///
@@ -3292,7 +3398,9 @@ module prop =
         /// Align the <min-x> of the element's viewBox with the smallest X value of the viewport.
         ///
         /// Align the <min-y>+<height> of the element's viewBox with the maximum Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMinYMax =
             /// Scale the graphic such that:
             ///
@@ -3324,7 +3432,9 @@ module prop =
         /// Align the midpoint X value of the element's viewBox with the midpoint X value of the viewport.
         ///
         /// Align the <min-y>+<height> of the element's viewBox with the maximum Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMidYMax =
             /// Scale the graphic such that:
             ///
@@ -3356,7 +3466,9 @@ module prop =
         /// Align the <min-x>+<width> of the element's viewBox with the maximum X value of the viewport.
         ///
         /// Align the <min-y>+<height> of the element's viewBox with the maximum Y value of the viewport.
+        #if !JAVASCRIPT
         [<Erase>]
+        #endif
         type xMaxYMax =
             /// Scale the graphic such that:
             ///
@@ -3385,7 +3497,9 @@ module prop =
 
     /// Specifies the coordinate system for the various length values within the filter primitives and
     /// for the attributes that define the filter primitive subregion.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type primitiveUnits =
         /// Indicates that any length values within the filter definitions represent fractions or
         /// percentages of the bounding box on the referencing element.
@@ -3396,7 +3510,9 @@ module prop =
         static member inline userSpaceOnUse = Interop.mkAttr "primitiveUnits" "userSpaceOnUse"
 
     /// Indicates which referrer to send when fetching the script, or resources fetched by the script
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type referrerPolicy =
         /// The Referer header will not be sent.
         static member inline noReferrer = Interop.mkAttr "referrerPolicy" "no-referrer"
@@ -3420,7 +3536,9 @@ module prop =
         static member inline unsafeUrl = Interop.mkAttr "referrerPolicy" "unsafe-url"
 
     /// Defines the x coordinate of an element’s reference point.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type refX =
         /// Numbers are interpreted as being in the coordinate system of the marker contents, after application of the
         /// viewBox and preserveAspectRatio attributes.
@@ -3439,7 +3557,9 @@ module prop =
         static member inline right = Interop.mkAttr "refX" "right"
 
     /// Defines the y coordinate of an element’s reference point.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type refY =
         /// Numbers are interpreted as being in the coordinate system of the marker contents, after application of the
         /// viewBox and preserveAspectRatio attributes.
@@ -3462,7 +3582,9 @@ module prop =
     /// The required rel attribute specifies the relationship between the current document and the linked document/resource.
     ///
     /// Docs at https://www.w3schools.com/tags/att_link_rel.asp
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type rel =
         /// Provides a link to an alternate version of the document (i.e. print page, translated or mirror).
         ///
@@ -3530,7 +3652,9 @@ module prop =
         static member inline tag = Interop.mkAttr "rel" "tag"
 
     /// Indicates the number of times an animation will take place.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type repeatCount =
         /// Specifies the number of iterations.
         ///
@@ -3552,7 +3676,9 @@ module prop =
         static member inline indefinite = Interop.mkAttr "repeatCount" "indefinite"
 
     /// Specifies the total duration for repeating an animation.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type repeatDur =
         /// This value specifies the duration in presentation time to repeat the animation.
         static member inline clockValue (duration: System.TimeSpan) =
@@ -3562,7 +3688,9 @@ module prop =
         static member inline indefinite = Interop.mkAttr "repeatDur" "indefinite"
 
     /// Specifies whether or not an animation can restart.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type restart =
         /// Indicates that the animation can be restarted at any time.
         static member inline always = Interop.mkAttr "restart" "always"
@@ -3574,7 +3702,9 @@ module prop =
         static member inline whenNotActive = Interop.mkAttr "restart" "whenNotActive"
 
     /// https://www.w3.org/WAI/PF/aria-1.1/roles
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type role =
         /// A message with important, and usually time-sensitive, information.
         /// See related `alertdialog` and `status`.
@@ -3877,7 +4007,9 @@ module prop =
         /// https://www.w3.org/WAI/PF/aria-1.1/roles#treeitem
         static member inline treeItem = Interop.mkAttr "role" "treeitem"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type selectionDirection =
         /// For the opposite direction.
         static member inline backward = Interop.mkAttr "selectionDirection" "backward"
@@ -3887,14 +4019,18 @@ module prop =
         static member inline none = Interop.mkAttr "selectionDirection" "none"
 
     /// The shape of the associated hot spot.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type shape =
         static member inline rect = Interop.mkAttr "shape" "rect"
         static member inline circle = Interop.mkAttr "shape" "circle"
         static member inline poly = Interop.mkAttr "shape" "poly"
 
     /// The shape of the associated hot spot.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type spacing =
         /// Indicates that the user agent should use text-on-a-path layout algorithms to adjust
         /// the spacing between typographic characters in order to achieve visually appealing results.
@@ -3904,7 +4040,9 @@ module prop =
         static member inline exact = Interop.mkAttr "spacing" "exact"
 
     /// Determines how a shape is filled beyond the defined edges of a gradient.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type spreadMethod =
         /// Indicates that the final color of the gradient fills the shape beyond the gradient's edges.
         static member inline pad = Interop.mkAttr "spreadMethod" "pad"
@@ -3914,7 +4052,9 @@ module prop =
         static member inline repeat = Interop.mkAttr "spreadMethod" "repeat"
 
     /// Defines how the Perlin Noise tiles behave at the border.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type stitchTiles =
         /// Indicates that no attempt is made to achieve smooth transitions at the border of tiles which
         /// contain a turbulence function.
@@ -3927,7 +4067,9 @@ module prop =
         /// for the first octave.
         static member inline stitch = Interop.mkAttr "stitchTiles" "stitch"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type target =
         /// Opens the linked document in a new window or tab.
         static member inline blank = Interop.mkAttr "target" "_blank"
@@ -3953,7 +4095,9 @@ module prop =
     /// `<tspan>`, `<tref>` or `<altGlyph>` element assigned explicitly to the
     /// first rendered character in a text chunk, or determination of the
     /// initial current text position for a `<textPath>` element.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type textAnchor =
         /// The rendered characters are shifted such that the end of the
         /// resulting rendered text (final current text position before applying
@@ -3985,7 +4129,9 @@ module prop =
         /// top side of the text is rendered at the initial text position.
         static member inline startOfText = Interop.mkAttr "textAnchor" "start"
 
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type type' =
         /// Defines a clickable button (mostly used with a JavaScript code to activate a script)
         static member inline button = Interop.mkAttr "type" "button"
@@ -4033,7 +4179,9 @@ module prop =
         static member inline week = Interop.mkAttr "type" "week"
 
     /// Indicates how the control wraps text.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type wrap =
         /// The browser ensures that all line breaks in the value consist of a CR+LF pair,
         /// but does not insert any additional line breaks.
@@ -4048,7 +4196,9 @@ module prop =
         static member inline off = Interop.mkAttr "wrap" "off"
 
     /// Indicates which color channel from in2 to use to displace the pixels in in along the x-axis.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type xChannelSelector =
         /// Specifies that the alpha channel of the input image defined in in2 will be used to displace
         /// the pixels of the input image defined in in along the x-axis.
@@ -4064,7 +4214,9 @@ module prop =
         static member inline R = Interop.mkAttr "xChannelSelector" "R"
 
     /// Indicates which color channel from in2 to use to displace the pixels in in along the y-axis.
+    #if !JAVASCRIPT
     [<Erase>]
+    #endif
     type yChannelSelector =
         /// Specifies that the alpha channel of the input image defined in in2 will be used to displace
         /// the pixels of the input image defined in in along the y-axis.

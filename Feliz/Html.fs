@@ -1,11 +1,17 @@
 namespace Feliz
-
+#if JAVASCRIPT
+open WebSharper.React
+open WebSharper
+#else
 open Fable.React
 open Fable.Core
 open Fable.Core.JsInterop
+#endif
 open System
 
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type Html =
     static member inline a xs = Interop.createElement "a" xs
     static member inline a (children: #seq<ReactElement>) = Interop.reactElementWithChildren "a" children

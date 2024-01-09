@@ -32,8 +32,10 @@
     <ProjectReference Include="../../Feliz/Feliz.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="6.1.6.336" />
-    <PackageReference Include="WebSharper.FSharp" Version="6.1.6.336" />
-    <PackageReference Include="WebSharper.React" Version="6.1.1.269" />
+    <PackageReference Include="WebSharper" Version="7.0.6.386-beta4" />
+    <PackageReference Include="WebSharper.Browser.Dom" Version="7.0.0.391-beta4" />
+    <PackageReference Include="WebSharper.Browser.Event" Version="1.0.1" />
+    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.386-beta4" />
+    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
   </ItemGroup>
 </Project>

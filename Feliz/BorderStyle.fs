@@ -3,7 +3,9 @@ namespace Feliz
 open Fable.Core
 open Feliz.Styles
 
+#if !JAVASCRIPT
 [<Erase>]
+#endif
 type borderStyle =
     /// Specifies a dashed border.
     ///
