@@ -74,12 +74,12 @@ module Interop =
     let reactElement (name: string) (props: 'a) : Feliz.ReactElement = import "createElement" "react"
     #endif
     let inline mkAttr (key: string) (value: obj) : IReactProperty = unbox (key, value)
-    #if JAVASCRIPT
-    [<WebSharper.Inline "undefined">]
-    #else
-    [<Emit "undefined">]
-    #endif
-    let undefined : obj = jsNative
+    // #if JAVASCRIPT
+    // [<WebSharper.Inline "undefined">]
+    // #else
+    // [<Emit "undefined">]
+    // #endif
+    // let undefined : obj = jsNative
     let inline mkStyle (key: string) (value: obj) : IStyleAttribute = unbox (key, value)
     let inline svgAttribute (key: string) (value: obj) : ISvgAttribute = unbox (key, value)
     let inline reactElementWithChild (name: string) (child: 'a) =

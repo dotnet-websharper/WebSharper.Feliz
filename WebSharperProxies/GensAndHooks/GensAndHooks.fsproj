@@ -4,7 +4,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FableProxies.fs" />
     <Compile Include="GlobalMacro.fs" />
     <Compile Include="FableImportJs.fs" />
     <Compile Include="WsGenerators.fs" />

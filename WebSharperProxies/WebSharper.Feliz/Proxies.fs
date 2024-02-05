@@ -23,55 +23,6 @@ type internal EnvironmentProxyHack =
 //     member this.ToString(format:string) =
 //         (this |> As<Date>).ToISOString()
 
-        
-[<Proxy("Fable.Core, Fable.Core")>]
-module internal CoreProxies =
-    
-    [<Proxy(typeof<Fable.Core.JS.Promise<_>>)>]
-    type PromiseProxy<'T> =
-        WebSharper.JavaScript.Promise<'T>
-    
-    [<Proxy("Fable.Core.JS, Fable.Core")>]
-    module internal JSProxy =
-        let [<Inline "undefined">] undefined<'T> = X<'T>
-    [<Proxy("Fable.Core.Util, Fable.Core")>]
-    module internal UtilProxies =
-        let [<Inline>] jsNative<'a> = Unchecked.defaultof<'a>
-    
-    [<Inline>]
-    let inline  (!!) x = unbox x
-    let (==>) (key: string) v = key,v :> obj
-
-    [<Inline>]
-    let inline createObj<'b when 'b :> seq<string*obj>> (fields: 'b) = New fields
-
-
-    [<Proxy("Fable.Core.JsInterop, Fable.Core")>]
-    module internal JsInteropProxies =
-        let (==>) (a:string,o:obj) : (string*obj) =
-             a ==> o
-             
-        let op_Dynamic<'T>(a:obj, b:obj) : 'T =
-            Pervasives.(?) a (string b)
-        let op_DynamicAssignment(a:obj,b:obj,c:obj) : unit =
-            a?b <- c
-        let toPlainJsObj (o: 'T):obj = JS.New o
-        [<Inline>] 
-        let (!!) x = unbox x
-        let [<Inline>] jsNative<'a> = Unchecked.defaultof<'a>
-        // let (==>) (key: string) v = key,v :> obj 
-
-        [<Inline>]
-        let createObj<'b when 'b :> seq<string*obj>> (fields: 'b) = New fields
-
-        [<Fable.Core.FableImportJs;Inline>]
-        let importDefault<'T0> path : 'T0 = jsNative
-
-        [<Fable.Core.FableImportJs;Inline>]
-        let import<'T> (selector:string) (path:string) : 'T = Unchecked.defaultof<'T>
-    
-        [<Inline "$target == null">]
-        let isNullOrUndefined (target:obj) : bool = target = null
 
 // [<Proxy("Fable.React, Fable.ReactDom.Types")>]
 module internal ReactProxies =
