@@ -1,11 +1,18 @@
 module Feliz.UseElmish
 
 open Fable.Core
+
+#if JAVASCRIPT
+    type ImportMemberAttribute = WebSharper.ImportAttribute
+#endif
 open Elmish
 
 module private Util =
     type UseSyncExternalStoreSubscribe = delegate of (unit -> unit) -> (unit -> unit)
-
+    
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     [<ImportMember("use-sync-external-store/shim")>]
     let useSyncExternalStore(subscribe: UseSyncExternalStoreSubscribe, getSnapshot: unit -> 'Model): 'Model = jsNative
 
@@ -14,8 +21,12 @@ module private Util =
 
     [<ImportMember "react">]
     let useEffect(effect: unit -> unit, dependencies: obj array) : unit = jsNative
-
+    
+    #if JAVASCRIPT
+    [<WebSharper.Inline "setTimeout($callback)">]
+    #else
     [<Emit "setTimeout($0)">]
+    #endif
     let setTimeout(callback: unit -> unit) : unit = jsNative
 
     type ElmishState<'Arg, 'Model, 'Msg when 'Arg : equality>(program: unit -> Program<'Arg, 'Model, 'Msg, unit>, arg: 'Arg, dependencies: obj[] option) =

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Feliz.Markdown\Feliz.Markdown.fs" />
+    <None Include="Readme.md" />
+    <None Include="wsconfig.json" />
+  </ItemGroup>
+  <PropertyGroup>
+      <NpmDependencies>
+          <NpmPackage Name="react-markdown" Version="&gt;= 8.0.4 &lt; 9.0.0" />
+      </NpmDependencies>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Feliz.Markdown\Feliz.Markdown.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="7.0.6.401-beta4" />
+
+    <PackageReference Include="WebSharper.Feliz" Version="1.0.0" />
+    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.401-beta4" />
+    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
+  </ItemGroup>
+
+</Project>

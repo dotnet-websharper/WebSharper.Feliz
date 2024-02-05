@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="FableProxies.fs" />
+    <Compile Include="GlobalMacro.fs" />
+    <Compile Include="FableImportJs.fs" />
+    <Compile Include="WsGenerators.fs" />
+    <Compile Include="ReactComponentProxy.fs" />
+    <Compile Include="HookProxy.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fable.Core" Version="3.2.8" />
+    <PackageReference Include="WebSharper" Version="7.0.6.396-beta4" />
+  </ItemGroup>
+</Project>

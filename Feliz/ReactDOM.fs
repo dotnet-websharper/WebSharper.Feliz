@@ -3,19 +3,26 @@ namespace Feliz
 open System
 #if JAVASCRIPT
 open WebSharper
-#else
-open Fable.Core
 #endif
+open Fable.Core
 
 type ReactDOM =
     [<Import("render", "react-dom"); Obsolete("ReactDOM.render is obsolete since React v18. Please use the ReactDOM.createRoot API instead")>]
-    static member render(element: Fable.React.ReactElement, container: Browser.Types.HTMLElement) = jsNative
+    
+    #if JAVASCRIPT
+    [<Inline>]
+    #endif
+    static member render(element: Feliz.ReactElement, container: Browser.Types.HTMLElement) = jsNative
     [<Obsolete("ReactDOM.render is obsolete since React v18. Please use the ReactDOM.createRoot API instead")>]
-    static member render(element: unit -> Fable.React.ReactElement, container: Browser.Types.HTMLElement) = ReactDOM.render(element(), container)
+    
+    #if JAVASCRIPT
+    [<Inline>]
+    #endif
+    static member render(element: unit -> Feliz.ReactElement, container: Browser.Types.HTMLElement) = ReactDOM.render(element(), container)
     [<Import("createRoot", "react-dom/client")>]
     static member createRoot(container: Browser.Types.HTMLElement) : ReactApi.IReactRoot = jsNative
     [<Import("createPortal", "react-dom")>]
-    static member createPortal (element : Fable.React.ReactElement, container : Browser.Types.HTMLElement) : Fable.React.ReactElement = jsNative
+    static member createPortal (element : Feliz.ReactElement, container : Browser.Types.HTMLElement) : Feliz.ReactElement = jsNative
 
 /// The ReactDOMServer object enables you to render components to static markup.
 type ReactDOMServer =

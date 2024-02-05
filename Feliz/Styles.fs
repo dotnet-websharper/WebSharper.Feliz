@@ -4,9 +4,7 @@ open System
 open Fable.Core
 open Feliz.Styles
 
-#if !JAVASCRIPT
 [<Erase>]
-#endif
 type style =
     /// The zIndex property sets or returns the stack order of a positioned element.
     ///

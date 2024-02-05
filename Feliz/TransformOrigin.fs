@@ -3,9 +3,7 @@ namespace Feliz
 open Fable.Core
 open Feliz.Styles
 
-#if !JAVASCRIPT
 [<Erase>]
-#endif
 type origin =
     static member inline left : ITransformOrigin = unbox "left"
     static member inline center : ITransformOrigin = unbox "center"

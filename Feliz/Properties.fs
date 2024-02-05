@@ -3,11 +3,23 @@ namespace Feliz
 open Browser.Types
 open Fable.Core.JsInterop
 open Fable.Core
+#if JAVASCRIPT
+open WebSharper
+open WebSharper.JavaScript
+[<AutoOpen>]
+module DoNotOpen =
+    let (?) = WebSharper.JavaScript.Pervasives.(?)
+    type System.DateTime with
+//         [<Inline "new Date($y,$mo-1,$d,$h,$m,$s).getTime()"; Pure>]
+//         new(a:int,b:int,c:int,d:int,e:int,f:int) = {}
+        member this.ToString(format:string) =
+            (this |> As<Date>).ToISOString()
+#endif
 open Feliz.Styles
 open System.ComponentModel
 open System
 
-[<StringEnum; RequireQualifiedAccess>]
+[<StringEnum;RequireQualifiedAccess>]
 type AriaDropEffect =
     /// A duplicate of the source object will be dropped into the target.
     | Copy
@@ -28,8 +40,11 @@ type AriaDropEffect =
     /// the drag operations (copy, move, link, execute) and any other drag
     /// functionality, such as cancel.
     | Popup
-
-[<StringEnum; RequireQualifiedAccess>]
+    
+#if !JAVASCRIPT
+[<StringEnum>]
+#endif
+[<RequireQualifiedAccess>]
 type AriaRelevant =
     /// Element nodes are added to the DOM within the live region.
     | Additions
@@ -106,9 +121,7 @@ module PropHelpers =
         |> String.concat System.Environment.NewLine
 
 /// Represents the native Html properties.
-#if !JAVASCRIPT
 [<Erase>]
-#endif
 type prop =
     /// List of types the server accepts, typically a file type.
     static member inline accept (value: string) = Interop.mkAttr "accept" value
@@ -431,9 +444,11 @@ type prop =
     static member inline charset (value: string) = Interop.mkAttr "charSet" value
 
     /// Children of this React element.
-    static member inline children (value: Fable.React.ReactElement) = Interop.mkAttr "children" value
+    static member inline children 
+        (value: Feliz.ReactElement)
+         = Interop.mkAttr "children" value
     /// Children of this React element.
-    static member inline children (elems: Fable.React.ReactElement seq) = Interop.mkAttr "children" (Interop.reactApi.Children.toArray (Array.ofSeq elems))
+    static member inline children (elems: Feliz.ReactElement seq) = Interop.mkAttr "children" (Interop.reactApi.Children.toArray (Array.ofSeq elems))
 
     /// A URL that designates a source document or message for the information quoted. This attribute is intended to
     /// point to information explaining the context or the reference for the quote.
@@ -635,7 +650,7 @@ type prop =
     static member inline exponent (value: int) = Interop.mkAttr "exponent" value
 
     /// Defines the files that will be uploaded when using an input element of the file type.
-    static member inline files (value: FileList) = Interop.mkAttr "files" value
+    static member inline files (value: Browser.Types.FileList) = Interop.mkAttr "files" value
 
     /// SVG attribute to define the opacity of the paint server (color, gradient, pattern, etc) applied to a shape.
     static member inline fillOpacity (value: float) = Interop.mkAttr "fillOpacity" value
@@ -951,8 +966,12 @@ type prop =
     /// Indicates the maximum value allowed.
     static member inline max (value: int) = Interop.mkAttr "max" value
     /// Indicates the maximum value allowed.
-    static member inline max (value: DateTime) = Interop.mkAttr "max" (value.ToString("yyyy-MM-dd"))
-
+    static member inline max (value: DateTime) = Interop.mkAttr "max"
+                                                     #if JAVASCRIPT
+                                                     ((value |> As<Date>).ToISOString())
+                                                     #else
+                                                     (value.ToString("yyyy-MM-dd"))
+                                                     #endif
     /// Defines the maximum number of characters allowed in the element.
     static member inline maxLength (value: int) = Interop.mkAttr "maxLength" value
 
@@ -980,7 +999,12 @@ type prop =
     /// Indicates the minimum value allowed.
     static member inline min (value: int) = Interop.mkAttr "min" value
     /// Indicates the minimum value allowed.
-    static member inline min (value: DateTime) = Interop.mkAttr "min" (value.ToString("yyyy-MM-dd"))
+    static member inline min (value: DateTime) = Interop.mkAttr "min" 
+                                                     #if JAVASCRIPT
+                                                     ((value |> As<Date>).ToISOString())
+                                                     #else
+                                                     (value.ToString("yyyy-MM-dd"))
+                                                     #endif
 
     /// Defines the minimum number of characters allowed in the element.
     static member inline minLength (value: int) = Interop.mkAttr "minLength" value
@@ -1046,19 +1070,19 @@ type prop =
 
     /// Same as `onChange` that takes an event as input but instead let's you deal with the `checked` value changed from the `input` element
     /// directly when it is defined as a checkbox with `prop.inputType.checkbox`.
-    static member inline onChange (handler: bool -> unit) = Interop.mkAttr "onChange" (fun (ev: Event) -> handler (!!ev.target?``checked``))
+    static member inline onChange (handler: bool -> unit) = Interop.mkAttr "onChange" (fun (ev: Browser.Types.Event) -> handler (!!ev.target?``checked``))
     /// Fires the moment when the value of the element is changed
-    static member inline onChange (handler: Event -> unit) = Interop.mkAttr "onChange" handler
+    static member inline onChange (handler: Browser.Types.Event -> unit) = Interop.mkAttr "onChange" handler
     /// Same as `onChange` that takes an event as input but instead lets you deal with the selected file directly from the `input` element when it is defined as a checkbox with `prop.type'.file`.
-    static member inline onChange (handler: File -> unit) =
-        let fileHandler (ev: Event) : unit =
-            let files : FileList = ev?target?files
+    static member inline onChange (handler: Browser.Types.File -> unit) =
+        let fileHandler (ev: Browser.Types.Event) : unit =
+            let files : Browser.Types.FileList = ev?target?files
             if not (isNullOrUndefined files) && files.length > 0 then handler (files.item 0)
         Interop.mkAttr "onChange" fileHandler
     /// Same as `onChange` that takes an event as input but instead lets you deal with the selected files directly from the `input` element when it is defined as a checkbox with `prop.type'.file` and `prop.multiple true`.
-    static member inline onChange (handler: File list -> unit) =
+    static member inline onChange (handler: Browser.Types.File list -> unit) =
         let fileHandler (ev: Event) : unit =
-            let fileList : FileList = ev?target?files
+            let fileList : Browser.Types.FileList = ev?target?files
             if not (isNullOrUndefined fileList) then handler [ for i in 0 .. fileList.length - 1 -> fileList.item i ]
         Interop.mkAttr "onChange" fileHandler
     /// Same as `onChange` that takes an event as input but instead let's you deal with the text changed from the `input` element directly
@@ -1904,8 +1928,18 @@ type prop =
     /// The value of the element, interpreted as a date
     static member inline value (value: System.DateTime, includeTime: bool) =
         if includeTime
-        then Interop.mkAttr "value" (value.ToString("yyyy-MM-ddThh:mm"))
-        else Interop.mkAttr "value" (value.ToString("yyyy-MM-dd"))
+        then Interop.mkAttr "value" 
+                                 #if JAVASCRIPT
+                                 ((value |> As<Date>).ToISOString())
+                                 #else
+                                 (value.ToString("yyyy-MM-ddThh:mm"))
+                                 #endif
+        else Interop.mkAttr "value" 
+                                 #if JAVASCRIPT
+                                 ((value |> As<Date>).ToISOString())
+                                 #else
+                                 (value.ToString("yyyy-MM-dd"))
+                                 #endif
     /// The value of the element, interpreted as a date
     static member inline value (value: System.DateTime) = prop.value(value, includeTime=false)
     /// The value of the element, interpreted as a date, or empty if there is no value.
@@ -1914,8 +1948,18 @@ type prop =
         | None -> Interop.mkAttr "value" ""
         | Some date ->
             if includeTime
-            then Interop.mkAttr "value" (date.ToString("yyyy-MM-ddThh:mm"))
-            else Interop.mkAttr "value" (date.ToString("yyyy-MM-dd"))
+            then Interop.mkAttr "value" 
+                                         #if JAVASCRIPT
+                                         ((date |> As<Date>).ToISOString())
+                                         #else
+                                         (date.ToString("yyyy-MM-ddThh:mm"))
+                                         #endif
+            else Interop.mkAttr "value" 
+                                         #if JAVASCRIPT
+                                         ((date |> As<Date>).ToISOString())
+                                         #else
+                                         (date.ToString("yyyy-MM-dd"))
+                                         #endif
 
     /// `prop.ref` callback that sets the value of an input after DOM element is created.
     /// Can be used instead of `prop.defaultValue` and `prop.value` props to override input value.

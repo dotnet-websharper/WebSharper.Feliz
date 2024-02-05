@@ -1,19 +1,8 @@
 namespace Feliz
 
-#if JAVASCRIPT
-open WebSharper
-open WebSharper.JavaScript
-open WebSharper.React
-[<AutoOpen>]
-module internal CoreProxy =
-    let [<Inline>] jsNative<'a> = Unchecked.defaultof<'a>
-    let createObj = New
-    let (==>) (key: string) v = key,v :> obj 
-#else
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
-#endif
 open Feliz.ReactApi
 
 [<RequireQualifiedAccess>]
@@ -72,7 +61,7 @@ module DateParsing =
 module Interop =
     let reactApi : IReactApi = 
         #if JAVASCRIPT
-        JS.ImportDefault
+        WebSharper.JavaScript.JS.ImportDefault
         #else
         importDefault
         #endif 
@@ -82,11 +71,11 @@ module Interop =
     #elif JAVASCRIPT
     let [<Inline>] reactElement (name: string) (props: 'a) : ReactElement = JS.Import("createElement","react")
     #else
-    let reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
+    let reactElement (name: string) (props: 'a) : Feliz.ReactElement = import "createElement" "react"
     #endif
     let inline mkAttr (key: string) (value: obj) : IReactProperty = unbox (key, value)
     #if JAVASCRIPT
-    [<Inline "undefined">]
+    [<WebSharper.Inline "undefined">]
     #else
     [<Emit "undefined">]
     #endif
@@ -95,15 +84,15 @@ module Interop =
     let inline svgAttribute (key: string) (value: obj) : ISvgAttribute = unbox (key, value)
     let inline reactElementWithChild (name: string) (child: 'a) =
         reactElement name (createObj [ "children" ==> ResizeArray [| child |] ])
-    let inline reactElementWithChildren (name: string) (children: #seq<ReactElement>) =
+    let inline reactElementWithChildren (name: string) (children: #seq<Feliz.ReactElement>) =
         reactElement name (createObj [ "children" ==> reactApi.Children.toArray (Array.ofSeq children) ])
-    let inline createElement name (properties: IReactProperty list) : ReactElement =
+    let inline createElement name (properties: IReactProperty list) : Feliz.ReactElement =
         reactElement name (createObj !!properties)
-    let inline createSvgElement name (properties: ISvgAttribute list) : ReactElement =
+    let inline createSvgElement name (properties: ISvgAttribute list) : Feliz.ReactElement =
         reactElement name (createObj !!properties)
 
     #if JAVASCRIPT
-    [<Inline "typeof $x === 'number'">]
+    [<WebSharper.Inline "typeof $x === 'number'">]
     #else
     [<Emit "typeof $0 === 'number'">]
     #endif

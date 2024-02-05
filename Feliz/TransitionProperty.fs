@@ -3,9 +3,7 @@ namespace Feliz
 open Fable.Core
 open Feliz.Styles
 
-#if !JAVASCRIPT
 [<Erase>]
-#endif
 type transitionProperty =
     static member inline all = unbox<ITransitionProperty> "all"
     static member inline backdropFilter = unbox<ITransitionProperty> "backdrop-filter"

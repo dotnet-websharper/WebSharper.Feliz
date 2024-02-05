@@ -1,16 +1,16 @@
 module Feliz.ReactApi
 
-open Browser.Types
 #if JAVASCRIPT
 open WebSharper
-open WebSharper.React
-module internal JS =
-    type Promise<'a> = WebSharper.JavaScript.Promise<'a>
+// open WebSharper.React
 type private ParamListAttribute = System.ParamArrayAttribute // TODO: something better
-#else
+#endif
 open Fable.React
 open Fable.Core
-#endif
+
+open Browser.Types
+open Feliz
+
 open System
 
 type ReactChildren =
@@ -19,18 +19,10 @@ type ReactChildren =
 
 type IReactApi =
     abstract Children: ReactChildren
-    #if JAVASCRIPT
-    abstract createContext: defaultValue: 'a -> React.Context<'a>
-    #else
     abstract createContext: defaultValue: 'a -> IContext<'a>
-    #endif
-    abstract createElement: comp: obj * props: obj -> ReactElement
-    #if JAVASCRIPT
-    abstract createElement: comp: obj * props: obj * [<ParamList>] children: ReactElement seq -> ReactElement
-    #else
-    abstract createElement: comp: obj * props: obj * [<ParamList>] children: ReactElement seq -> ReactElement
-    #endif
-    abstract forwardRef: render: Func<'props,IRefValue<'t>,ReactElement> -> ('props -> IRefValue<'t> -> ReactElement)
+    abstract createElement: comp: obj * props: obj -> Feliz.ReactElement
+    abstract createElement: comp: obj * props: obj * [<ParamList>] children: Feliz.ReactElement seq -> Feliz.ReactElement
+    abstract forwardRef: render: Func<'props,IRefValue<'t>,Feliz.ReactElement> -> ('props -> IRefValue<'t> -> Feliz.ReactElement)
     #if JAVASCRIPT
     // TODO inline
     [<Inline("$this.lazy($import)")>]
@@ -42,26 +34,22 @@ type IReactApi =
     abstract StrictMode: obj
     abstract Suspense: obj
     abstract useCallback: callbackFunction: ('a -> 'b) -> dependencies: obj array -> ('a -> 'b)
-    #if JAVASCRIPT
-    abstract useContext: ctx: React.Context<'a> -> 'a
-    #else
     abstract useContext: ctx: IContext<'a> -> 'a
-    #endif
     abstract useEffect: obj * 't array -> unit
     abstract useEffect: obj -> unit
     abstract useEffect: (unit -> unit) -> unit
-    #if JAVASCRIPT
-    abstract useImperativeHandle<'t> : ref: React.Ref<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
-    #else
-    abstract useImperativeHandle<'t> : ref: Fable.React.IRefValue<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
-    #endif
+    // #if JAVASCRIPT
+    // abstract useImperativeHandle<'t> : ref: React.Ref<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
+    // #else
+    abstract useImperativeHandle<'t> : ref: Feliz.IRefValue<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
+    // #endif
     #if JAVASCRIPT
     // TODO inline
     [<Inline("$this.useImperativeHandle($ref,$createHandle)")>]
     #else
     [<Emit("$0.useImperativeHandle($1, $2)")>]
     #endif
-    abstract useImperativeHandleNoDeps<'t> : ref: Fable.React.IRefValue<'t> -> createHandle: (unit -> 't) -> unit
+    abstract useImperativeHandleNoDeps<'t> : ref: Feliz.IRefValue<'t> -> createHandle: (unit -> 't) -> unit
     abstract useMemo: createFunction: (unit -> 'a) -> dependencies: obj array -> 'a
     abstract useReducer: ('state -> 'msg -> 'state) -> 'state -> ('state * ('msg -> unit))
     #if JAVASCRIPT
@@ -70,7 +58,7 @@ type IReactApi =
     #else
     [<Emit "$0.useRef($1)">]
     #endif
-    abstract useRefInternal<'t> : initial: 't -> Fable.React.IRefValue<'t>
+    abstract useRefInternal<'t> : initial: 't -> Feliz.IRefValue<'t>
     abstract useState<'t,'u> : initial:'t -> ('u * ('u -> unit))
 
 type IReactRoot =

@@ -2,6 +2,10 @@ namespace Feliz
 
 open System
 open System.ComponentModel
+// #if JAVASCRIPT
+// open WebSharper
+// open WebSharper.JavaScript
+// #endif
 open Fable.Core
 open Fable.Core.JsInterop
 open Browser.Types
@@ -29,11 +33,11 @@ type internal Internal() =
     static member
         functionComponent
         (
-            renderElement: 'props -> ReactElement,
+            renderElement: 'props -> Feliz.ReactElement,
             ?name: string,
             ?withKey: 'props -> string
         )
-        : 'props -> Fable.React.ReactElement =
+        : 'props -> Feliz.ReactElement =
             name |> Option.iter (fun name -> renderElement?displayName <- name)
             #if FABLE_COMPILER_3
             Browser.Dom.console.warn("Feliz: using React.functionComponent in Fable 3 is obsolete, please consider using the [<ReactComponent>] attribute instead which makes Feliz output better Javascript code that is compatible with react-refresh")
@@ -44,12 +48,12 @@ type internal Internal() =
     static member
         memo
         (
-            renderElement: 'props -> ReactElement,
+            renderElement: 'props -> Feliz.ReactElement,
             ?name: string,
             ?areEqual: 'props -> 'props -> bool,
             ?withKey: 'props -> string
         )
-        : 'props -> Fable.React.ReactElement =
+        : 'props -> Feliz.ReactElement =
             let memoElementType = Interop.reactApi.memo(renderElement, (defaultArg areEqual (unbox null)))
             name |> Option.iter (fun name -> renderElement?displayName <- name)
             fun props ->
@@ -64,19 +68,20 @@ type React =
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline fragment xs =
         Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, obj(), xs)
-
+        
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline keyedFragment(key: int, xs) = // Fable.React.Helpers.fragment [ !!("key", key) ] xs
         Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, createObj ["key" ==> key], xs)
 
+        
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline keyedFragment(key: string, xs) =
         Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, createObj ["key" ==> key], xs)
-
+        
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline keyedFragment(key: System.Guid, xs) =
         Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, createObj ["key" ==> string key], xs)
-
+        
     /// Placeholder empty React element to be used when importing external React components with the `[<ReactComponent>]` attribute.
     static member inline imported() = Html.none
 
@@ -291,7 +296,7 @@ type React =
 
     /// A specialized version of React.useRef() that creates a reference to a button element.
     [<Hook>]
-    static member useButtonRef() : Fable.React.IRefValue<HTMLButtonElement option> = React.useRef(None)
+    static member useButtonRef() : IRefValue<HTMLButtonElement option> = React.useRef(None)
 
     /// A specialized version of React.useRef() that creates a reference to a generic HTML element.
     ///
@@ -341,9 +346,9 @@ type React =
     /// <param name='render'>A render function that returns a list of elements.</param>
     /// <param name='withKey'>A function to derive a component key from the props.</param>
     [<Obsolete "React.functionComponent is obsolete. Use [<ReactComponent>] attribute to automatically convert them to React components">]
-    static member functionComponent(render: 'props -> #seq<ReactElement>, ?withKey: 'props -> string) =
+    static member functionComponent(render: 'props -> #seq<Feliz.ReactElement>, ?withKey: 'props -> string) =
         Internal.functionComponent(render >> React.fragment, ?withKey=withKey)
-
+    
     /// <summary>
     /// Creates a React function component from a function that accepts a "props" object and renders a result.
     /// A component key can be provided in the props object, or a custom `withKey` function can be provided.
@@ -352,7 +357,7 @@ type React =
     /// <param name='name'>The component name to display in the React dev tools.</param>
     /// <param name='withKey'>A function to derive a component key from the props.</param>
     [<Obsolete "React.functionComponent is obsolete. Use [<ReactComponent>] attribute to automatically convert them to React components">]
-    static member functionComponent(name: string, render: 'props -> #seq<ReactElement>, ?withKey: 'props -> string) =
+    static member functionComponent(name: string, render: 'props -> #seq<Feliz.ReactElement>, ?withKey: 'props -> string) =
         Internal.functionComponent(render >> React.fragment, name, ?withKey=withKey)
 
     //
@@ -416,7 +421,7 @@ type React =
     /// <param name='name'>The component name to display in the React dev tools.</param>
     /// <param name='defaultValue'>A default value that is only used when a component does not have a matching Provider above it in the tree.</param>
     static member createContext<'a>(?name: string, ?defaultValue: 'a) =
-        let contextObject = Interop.reactApi.createContext (defaultArg defaultValue Fable.Core.JS.undefined<'a>)
+        let contextObject = Interop.reactApi.createContext (defaultArg defaultValue JS.undefined<'a>)
         name |> Option.iter (fun name -> contextObject?displayName <- name)
         contextObject
 
@@ -449,7 +454,9 @@ type React =
     /// </summary>
     /// <param name='contextObject'>A context object returned from a previous React.createContext call.</param>
     /// <param name='render'>A render function that returns a sequence of elements.</param>
-    static member contextConsumer(contextObject: Fable.React.IContext<'a>, render: 'a -> #seq<ReactElement>) : ReactElement =
+    static member contextConsumer(
+        contextObject: Fable.React.IContext<'a>, 
+        render: 'a -> #seq<Feliz.ReactElement>) : Feliz.ReactElement =
         Interop.reactApi.createElement(contextObject?Consumer, null, [!!(render >> React.fragment)])
 
     /// <summary>
@@ -458,7 +465,9 @@ type React =
     /// </summary>
     /// <param name='contextObject'>A context object returned from a previous React.createContext call.</param>
     [<Hook>]
-    static member useContext(contextObject: Fable.React.IContext<'a>) = Interop.reactApi.useContext contextObject
+    static member useContext
+        (contextObject: Fable.React.IContext<'a>)
+         = Interop.reactApi.useContext contextObject
 
     /// <summary>
     /// Creates a callback that keeps the same reference during the entire lifecycle of the component while having access to
@@ -501,7 +510,7 @@ type React =
     static member forwardRef(render: ('props * IRefValue<'t> -> ReactElement)) : ('props * IRefValue<'t> -> ReactElement) =
         let forwardRefType = Interop.reactApi.forwardRef(Func<'props,IRefValue<'t>,ReactElement> (fun props ref -> render(props,ref)))
         fun (props, ref) ->
-            let propsObj = props |> JsInterop.toPlainJsObj
+            let propsObj = props |> Fable.Core.JsInterop.toPlainJsObj
             propsObj?ref <- ref
             Interop.reactApi.createElement(forwardRefType, propsObj)
 
@@ -514,7 +523,7 @@ type React =
         let forwardRefType = Interop.reactApi.forwardRef(Func<'props,IRefValue<'t>,ReactElement> (fun props ref -> render(props,ref)))
         render?displayName <- name
         fun (props, ref) ->
-            let propsObj = props |> JsInterop.toPlainJsObj
+            let propsObj = props |> Fable.Core.JsInterop.toPlainJsObj
             propsObj?ref <- ref
             Interop.reactApi.createElement(forwardRefType, propsObj)
 
@@ -566,7 +575,7 @@ type React =
     /// </summary>
     /// <param name='children'>The elements that will be rendered within the suspense block.</param>
     static member suspense(children: ReactElement list) =
-        Interop.reactApi.createElement(Interop.reactApi.Suspense, {| fallback = Html.none |} |> JsInterop.toPlainJsObj, children)
+        Interop.reactApi.createElement(Interop.reactApi.Suspense, {| fallback = Html.none |} |> Fable.Core.JsInterop.toPlainJsObj, children)
     /// <summary>
     /// Lets you specify a loading indicator whenever a child element is not yet ready
     /// to render.
@@ -575,8 +584,9 @@ type React =
     /// </summary>
     /// <param name='children'>The elements that will be rendered within the suspense block.</param>
     /// <param name='fallback'>The element that will be rendered while the children are loading.</param>
-    static member suspense(children: ReactElement list, fallback: ReactElement) =
-        Interop.reactApi.createElement(Interop.reactApi.Suspense, {| fallback = fallback |} |> JsInterop.toPlainJsObj, children)
+    static member suspense(children: Feliz.ReactElement list, fallback: Feliz.ReactElement) =
+        Interop.reactApi.createElement(Interop.reactApi.Suspense, {| fallback = fallback |} 
+        |> Fable.Core.JsInterop.toPlainJsObj, children)
 
     /// <summary>
     /// Allows you to override the behavior of a given ref.
@@ -606,13 +616,17 @@ type React =
     /// </summary>
     [<Hook>]
     static member inline useCancellationToken () =
-        let cts = React.useRef(new System.Threading.CancellationTokenSource())
+        let cts = React.useRef(new System.Threading.CancellationTokenSource(Int32.MaxValue))
         let token = React.useRef(cts.current.Token)
 
         React.useEffectOnce(fun () ->
             React.createDisposable(fun () ->
                 cts.current.Cancel()
+                #if JAVASCRIPT
+                (WebSharper.JavaScript.Pervasives.As<System.IDisposable> cts).Dispose()
+                #else
                 cts.current.Dispose()
+                #endif
             )
         )
 

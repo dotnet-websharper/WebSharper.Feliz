@@ -9,10 +9,19 @@ type IStyleAttribute = interface end
 /// Describes an SVG attribute
 type ISvgAttribute = interface end 
 
-#if JAVASCRIPT
-type ReactElement = WebSharper.React.React.Element
-type IRefValue<'T> = WebSharper.React.React.Ref<'T>
-#else
+// #if JAVASCRIPT
+// type ReactElement = WebSharper.React.React.Element
+// type IRefValue<'T> = 
+//     abstract member current: 'T with get, set
+// #else
 type ReactElement = Fable.React.ReactElement
 type IRefValue<'T> = Fable.React.IRefValue<'T>
-#endif
+// #endif
+// module JS =
+//     
+//     type Promise<'a> =
+//         #if JAVASCRIPT
+//         WebSharper.JavaScript.Promise<'a>
+//         #else
+//         Fable.Core.JS.Promise<'a>
+//         #endif

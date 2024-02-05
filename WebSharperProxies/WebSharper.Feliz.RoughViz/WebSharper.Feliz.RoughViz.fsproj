@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+        <Compile Include="..\..\Feliz.RoughViz\BarChart.fs" />
+        <Compile Include="..\..\Feliz.RoughViz\PieChart.fs" />
+        <Compile Include="..\..\Feliz.RoughViz\RoughViz.fs" />
+    <None Include="Readme.md" />
+    <None Include="wsconfig.json" />
+  </ItemGroup>
+  <PropertyGroup>
+      <NpmDependencies>
+          <NpmPackage Name="@inocan/rough-viz" Version="&gt;= 1.2.0 &lt; 2.0.0" ResolutionStrategy="max" />
+      </NpmDependencies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="7.0.6.401-beta4" />
+
+    <PackageReference Include="WebSharper.Feliz" Version="1.0.0" />
+    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.401-beta4" />
+    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
+  </ItemGroup>
+
+<ItemGroup>
+    <ProjectReference Include="..\..\Feliz.RoughViz\Feliz.RoughViz.fsproj" />
+  </ItemGroup>
+
+</Project>
