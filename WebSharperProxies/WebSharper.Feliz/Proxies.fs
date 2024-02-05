@@ -64,10 +64,10 @@ module internal CoreProxies =
         [<Inline>]
         let createObj<'b when 'b :> seq<string*obj>> (fields: 'b) = New fields
 
-        [<Feliz.FableImportJs;Inline>]
+        [<Fable.Core.FableImportJs;Inline>]
         let importDefault<'T0> path : 'T0 = jsNative
 
-        [<Feliz.FableImportJs;Inline>]
+        [<Fable.Core.FableImportJs;Inline>]
         let import<'T> (selector:string) (path:string) : 'T = Unchecked.defaultof<'T>
     
         [<Inline "$target == null">]
@@ -77,7 +77,7 @@ module internal CoreProxies =
 module internal ReactProxies =
     [<Proxy("Fable.React.ReactBindings, Fable.React.Types")>]
     module ReactBindingsProxy =
-        let [<Feliz.Global>] React = 
+        let [<Fable.Core.Global>] React = 
             Unchecked.defaultof<Fable.React.IReactExports>
             // {
             //     new Fable.React.IReactExports with
