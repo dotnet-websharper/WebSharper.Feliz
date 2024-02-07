@@ -31,7 +31,7 @@ module internal JsInteropProxies =
     let createObj<'b when 'b :> seq<string*obj>> (fields: 'b) = New fields
 
     [<Fable.Core.FableImportJs;Inline>]
-    let importDefault<'T0> path : 'T0 = Fable.Core.Util.jsNative
+    let importDefault<'T0> (path:string) : 'T0 = Fable.Core.Util.jsNative
 
     [<Fable.Core.FableImportJs;Inline>]
     let import<'T> (selector:string) (path:string) : 'T = Fable.Core.Util.jsNative
@@ -41,6 +41,10 @@ module internal JsInteropProxies =
 
 [<Proxy("Fable.Core.JS, Fable.Core")>]
 module internal JSProxy =
+
+    let setTimeout (fn:unit->unit, timeout:int):int =
+        WebSharper.JavaScript.JS.SetTimeout fn timeout
+        |> As<int>
     let [<Inline "undefined">] undefined<'T> = X<'T>
 
     let [<Fable.Core.Global>] console : Fable.Core.JS.Console = Fable.Core.Util.jsNative
@@ -61,4 +65,6 @@ type internal U3Proxy<'a,'b,'c> = JavaScript.Union<'a,'b,'c>
 type internal U4Proxy<'a,'b,'c,'d> = JavaScript.Union<'a,'b,'c,'d>
 
 [<Proxy(typeof<Fable.Core.JS.Console>)>]
-type internal ConsoleProxy = JavaScript.Console
+type internal ConsoleProxy = 
+    abstract log: message : option<obj> * optionalParams: obj array -> unit
+    abstract error: message : option<obj> * optionalParams: obj array -> unit

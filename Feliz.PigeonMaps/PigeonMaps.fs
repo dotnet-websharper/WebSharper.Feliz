@@ -7,7 +7,11 @@ open Fable.Core.JsInterop
 module Interop =
     /// Creates a map marker internally (which is actually `ReactElement`)
     let createMarker : obj -> IMapMarker = import "createMarker" "./Marker.js"
+    #if JAVASCRIPT
+    [<WebSharper.Inline "Object.assign({}, $x, $y)">]
+    #else
     [<Emit("Object.assign({}, $0, $1)")>]
+    #endif
     let objectAssign (x: obj) (y: obj) = jsNative
 
 [<Erase>]

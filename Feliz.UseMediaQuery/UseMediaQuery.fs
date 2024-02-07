@@ -40,10 +40,18 @@ let private makeQueries breakpoints =
 
 [<AutoOpen>]
 module UseMediaQueryExtension =
+     #if JAVASCRIPT
+     [<WebSharper.Inline("$mqList.addListener($fn)")>]
+     #else
      [<Emit("($0).addListener($1)")>]
+     #endif
      let private addListener mqList fn = jsNative
 
+     #if JAVASCRIPT
+     [<WebSharper.Inline("$mqList.addListener($fn)")>]
+     #else
      [<Emit("($0).removeListener($1)")>]
+     #endif
      let private removeListener mqList fn = jsNative
 
      type React with

@@ -57,7 +57,12 @@ module Delay =
     #endif
         #if DEBUG
         if input.children.IsEmpty then 
+            #if JAVASCRIPT //! TODO: 'Type not found in JavaScript compilation: Fable.Core.JS+Console' despite having a proxy for the type
+            printfn "No elements provided to React.delayedSuspense!"
+            printfn "%A" input
+            #else
             JS.console.error("No elements provided to React.delayedSuspense!", input)
+            #endif
         #endif
 
         Option.defaultValue  (unbox {| children = Html.none |}) input.delay

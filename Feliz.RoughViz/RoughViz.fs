@@ -18,12 +18,20 @@ type IObserverEntry =
     abstract contentRect : IContentRect
 
 module internal Interop =
+    #if JAVASCRIPT
+    [<WebSharper.Inline "Object.assign({}, $x, $y)">]
+    #else
     [<Emit("Object.assign({}, $0, $1)")>]
+    #endif
     let objectAssign (x: obj) (y: obj) = jsNative
     let createBarChart (config: obj) : unit = import "createBarChart" "./createChart.js"
     let createHorizontalBarChart (config: obj) : unit = import "createHorizontalBarChart" "./createChart.js"
     let createPieChart (config: obj) : unit = import "createPieChart" "./createChart.js"
+    #if JAVASCRIPT
+    [<WebSharper.Inline "new ResizeObserver($handler)">]
+    #else
     [<Emit("new ResizeObserver($0)")>]
+    #endif
     let createResizeObserver(handler: IObserverEntry array -> unit) : IResizeObserver = jsNative
 
 [<RequireQualifiedAccess>]

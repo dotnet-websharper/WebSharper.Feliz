@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Feliz.Markdown\Feliz.Markdown.fs" />
+    <Compile Include="..\..\Feliz.Markdown\Markdown.fs" />
     <None Include="Readme.md" />
     <None Include="wsconfig.json" />
   </ItemGroup>
@@ -19,9 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FablePartialProxy" Version="1.0.0" />
-    <PackageReference Include="GensAndHooks" Version="1.0.0" />
     <PackageReference Include="WebSharper" Version="7.0.6.405-beta4" />
+    <PackageReference Include="WebSharper.Fable.Core" Version="7.0.0.410-beta4" />
 
     <PackageReference Include="WebSharper.Feliz" Version="1.0.0" />
     <PackageReference Include="WebSharper.FSharp" Version="7.0.6.405-beta4" />

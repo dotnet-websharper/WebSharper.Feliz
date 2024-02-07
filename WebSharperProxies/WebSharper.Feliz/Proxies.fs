@@ -30,37 +30,6 @@ module internal ReactProxies =
     module ReactBindingsProxy =
         let [<Fable.Core.Global>] React = 
             Unchecked.defaultof<Fable.React.IReactExports>
-            // {
-            //     new Fable.React.IReactExports with
-            //         [<Inline>]
-            //         member this.createContext<'T>(defaultValue:'T) = WebSharper.React.React.CreateContext(defaultValue) |> As<Fable.React.IContext<'T>>
-            //         [<Inline>]
-            //         member this.createElement<'T>(comp, props, children) =
-            //             React.React.CreateElement(comp, props, (Array.ofSeq children) |> As) |> As<Fable.React.ReactElement>
-            //         [<Inline>]
-            //         member this.Fragment: Fable.React.ReactElementType<obj> = 
-            //             React.React.Fragment |> As
-            //         member this.Suspense: Fable.React.ReactElementType<obj> = 
-            //             React.React.Suspense |> As
-            //         member this.``lazy``(f: unit -> Fable.Core.JS.Promise<'TIn>): 'TOut = 
-            //             failwith "Not Implemented"
-            //         member this.createElement(comp: obj, props: obj, children: Fable.React.ReactElement seq): Fable.React.ReactElement = 
-            //             failwith "Not Implemented"
-            //         member this.createRef(initialValue: 'T): Fable.React.IRefValue<'T> = 
-            //             failwith "Not Implemented"
-            //         member this.forwardRef(fn: 'props -> Fable.React.IRefValue<'T> option -> Fable.React.ReactElement): Fable.React.ReactElementType<'props> = 
-            //             failwith "Not Implemented"
-            //         member this.memo(render: 'props -> Fable.React.ReactElement, areEqual: 'props -> 'props -> bool): Fable.React.ReactElementType<'props> = 
-            //             failwith "Not Implemented"
-            //         member this.startTransition(callback: unit -> unit): unit = 
-            //             failwith "Not Implemented"
-            //         member this.version: string = 
-            //             failwith "Not Implemented"
-            //         member this.Fragment 
-            //             with get() : Fable.React.ReactElementType<obj> = WebSharper.React.React.Fragment |> As
-
-            // }
-        
         
     [<Proxy(typeof<Fable.React.ReactElement>)>]
     type ReactElementProxy = React.React.Element

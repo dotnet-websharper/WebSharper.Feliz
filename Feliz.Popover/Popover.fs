@@ -5,7 +5,11 @@ open Fable.Core
 open Fable.Core.JsInterop
 
 module Interop =
+    #if JAVASCRIPT
+    [<WebSharper.Inline "Object.assign({}, $x, $y)">]
+    #else
     [<Emit("Object.assign({}, $0, $1)")>]
+    #endif
     let objectAssign (x: obj) (y: obj) = jsNative
 
 type IPopoverProperty = interface end
