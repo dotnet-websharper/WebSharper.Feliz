@@ -82,11 +82,21 @@ module markdown =
         static member inline li(render: IListProperties -> ReactElement) = unbox<IComponent> (Interop.mkAttr "li" render)
         static member inline code(render: ICodeProperties -> ReactElement) = 
             let renderInternal (props: obj) = 
+                #if JAVASCRIPT
+                // TODO: emitJsExpr proxy
+                // TODO: check if this js.inline input is good
+                let inputs = createObj [
+                    "className" ==> WebSharper.JavaScript.JS.Inline<string>("$0.className || \"\"", props)
+                    "children" ==> WebSharper.JavaScript.JS.Inline<ReactElement []>("$0.children || []", props)
+                    "isInline" ==> WebSharper.JavaScript.JS.Inline<bool>("$0.inline || false", props)
+                ]
+                #else
                 let inputs = createObj [
                     "className" ==> emitJsExpr<string> props "$0.className || \"\""
                     "children" ==> emitJsExpr<ReactElement []> props "$0.children || []"
                     "isInline" ==> emitJsExpr<bool> props "$0.inline || false"
                 ]
+                #endif
                 render (unbox<ICodeProperties> inputs)
             unbox<IComponent> (Interop.mkAttr "code" renderInternal)
         static member inline pre(render: ICodeProperties -> ReactElement) = unbox<IComponent> (Interop.mkAttr "pre" render)

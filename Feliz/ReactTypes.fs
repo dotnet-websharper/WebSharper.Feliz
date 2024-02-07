@@ -24,7 +24,6 @@ type IReactApi =
     abstract createElement: comp: obj * props: obj * [<ParamList>] children: Feliz.ReactElement seq -> Feliz.ReactElement
     abstract forwardRef: render: Func<'props,IRefValue<'t>,Feliz.ReactElement> -> ('props -> IRefValue<'t> -> Feliz.ReactElement)
     #if JAVASCRIPT
-    // TODO inline
     [<Inline("$this.lazy($import)")>]
     #else
     [<Emit("$0.lazy($1)")>]
@@ -44,7 +43,6 @@ type IReactApi =
     abstract useImperativeHandle<'t> : ref: Feliz.IRefValue<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
     // #endif
     #if JAVASCRIPT
-    // TODO inline
     [<Inline("$this.useImperativeHandle($ref,$createHandle)")>]
     #else
     [<Emit("$0.useImperativeHandle($1, $2)")>]
@@ -53,7 +51,6 @@ type IReactApi =
     abstract useMemo: createFunction: (unit -> 'a) -> dependencies: obj array -> 'a
     abstract useReducer: ('state -> 'msg -> 'state) -> 'state -> ('state * ('msg -> unit))
     #if JAVASCRIPT
-    // TODO inline
     [<Inline("$this.useRef($initial)")>]
     #else
     [<Emit "$0.useRef($1)">]
