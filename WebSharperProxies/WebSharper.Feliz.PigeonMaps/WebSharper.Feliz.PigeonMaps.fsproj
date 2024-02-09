@@ -1,9 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\..\Feliz.PigeonMaps\Types.fs" />
     <Compile Include="..\..\Feliz.PigeonMaps\Map.fs" />
@@ -13,21 +12,15 @@
     <None Include="wsconfig.json" />
   </ItemGroup>
   <PropertyGroup>
-      <NpmDependencies>
-          <NpmPackage Name="pigeon-maps" Version="&gt;= 0.21.0 &lt; 1.0.0" ResolutionStrategy="Min" />
-      </NpmDependencies>
+    <NpmDependencies>
+      <NpmPackage Name="pigeon-maps" Version="&gt;= 0.21.0 &lt; 1.0.0" ResolutionStrategy="Min" />
+    </NpmDependencies>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Feliz.PigeonMaps\Feliz.PigeonMaps.fsproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="WebSharper" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.Fable.Core" Version="7.0.0.411-beta4" />
-
-    <PackageReference Include="WebSharper.Feliz" Version="1.0.0" />
-    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
-  </ItemGroup>
-
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
+<ItemGroup>
+<ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
+</ItemGroup>
 </Project>

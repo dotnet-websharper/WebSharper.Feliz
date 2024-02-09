@@ -211,3 +211,9 @@ dist
 *.fs.js
 0.bundle.js
 .yarn
+
+nuget/
+websharper.log
+build/*.nupkg
+build/AssemblyInfo.fs
+build/versions.txt

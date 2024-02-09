@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-   <DefineConstants>$(DefineConstants);JAVASCRIPT</DefineConstants>
+    <DefineConstants>$(DefineConstants);JAVASCRIPT</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Proxies.fs" />
@@ -32,12 +33,5 @@
   <ItemGroup>
     <ProjectReference Include="../../Feliz/Feliz.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WebSharper" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.Browser.Dom" Version="7.0.0.410-beta4" />
-    <PackageReference Include="WebSharper.Browser.Event" Version="7.0.0.411-beta4" />
-    <PackageReference Include="WebSharper.Fable.Core" Version="7.0.0.411-beta4" />
-    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
-  </ItemGroup>
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

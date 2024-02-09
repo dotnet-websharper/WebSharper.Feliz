@@ -1,66 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-    <PropertyGroup>
-        <NpmDependencies>
-            <NpmPackage Name="recharts" Version="&gt;= 2.0.0 &lt; 3.0.0" ResolutionStrategy="Max" />
-        </NpmDependencies>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="..\..\Feliz.Recharts\Types.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Interop.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Funnel.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ErrorBar.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Brush.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Cell.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Text.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Tooltip.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Legend.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Label.fs" />
-        <Compile Include="..\..\Feliz.Recharts\LabelList.fs" />
-        <Compile Include="..\..\Feliz.Recharts\XAxis.fs" />
-        <Compile Include="..\..\Feliz.Recharts\YAxis.fs" />
-        <Compile Include="..\..\Feliz.Recharts\PolarAngleAxis.fs" />
-        <Compile Include="..\..\Feliz.Recharts\PolarRadiusAxis.fs" />
-        <Compile Include="..\..\Feliz.Recharts\AreaChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\LineChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\BarChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\PieChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ComposedChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\RadarChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\RadialBarChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Bar.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Line.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Area.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Pie.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Radar.fs" />
-        <Compile Include="..\..\Feliz.Recharts\RadialBar.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ScatterChart.fs" />
-        <Compile Include="..\..\Feliz.Recharts\CartesianGrid.fs" />
-        <Compile Include="..\..\Feliz.Recharts\PolarGrid.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ResponsiveContainer.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ReferenceLine.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ReferenceArea.fs" />
-        <Compile Include="..\..\Feliz.Recharts\ReferenceDot.fs" />
-        <Compile Include="..\..\Feliz.Recharts\Recharts.fs" />
+  <PropertyGroup>
+    <NpmDependencies>
+      <NpmPackage Name="recharts" Version="&gt;= 2.0.0 &lt; 3.0.0" ResolutionStrategy="Max" />
+    </NpmDependencies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Feliz.Recharts\Types.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Interop.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Funnel.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ErrorBar.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Brush.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Cell.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Text.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Tooltip.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Legend.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Label.fs" />
+    <Compile Include="..\..\Feliz.Recharts\LabelList.fs" />
+    <Compile Include="..\..\Feliz.Recharts\XAxis.fs" />
+    <Compile Include="..\..\Feliz.Recharts\YAxis.fs" />
+    <Compile Include="..\..\Feliz.Recharts\PolarAngleAxis.fs" />
+    <Compile Include="..\..\Feliz.Recharts\PolarRadiusAxis.fs" />
+    <Compile Include="..\..\Feliz.Recharts\AreaChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\LineChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\BarChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\PieChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ComposedChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\RadarChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\RadialBarChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Bar.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Line.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Area.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Pie.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Radar.fs" />
+    <Compile Include="..\..\Feliz.Recharts\RadialBar.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ScatterChart.fs" />
+    <Compile Include="..\..\Feliz.Recharts\CartesianGrid.fs" />
+    <Compile Include="..\..\Feliz.Recharts\PolarGrid.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ResponsiveContainer.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ReferenceLine.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ReferenceArea.fs" />
+    <Compile Include="..\..\Feliz.Recharts\ReferenceDot.fs" />
+    <Compile Include="..\..\Feliz.Recharts\Recharts.fs" />
     <None Include="Readme.md" />
     <None Include="wsconfig.json" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="WebSharper" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.Fable.Core" Version="7.0.0.411-beta4" />
-
-    <PackageReference Include="WebSharper.Feliz" Version="1.0.0" />
-    <PackageReference Include="WebSharper.FSharp" Version="7.0.6.405-beta4" />
-    <PackageReference Include="WebSharper.React" Version="7.0.5.386-beta4" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Feliz.Recharts\Feliz.Recharts.fsproj" />
   </ItemGroup>
-
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
+<ItemGroup>
+<ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
+</ItemGroup>
 </Project>

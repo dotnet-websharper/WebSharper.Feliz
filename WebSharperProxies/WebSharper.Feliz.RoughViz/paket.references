@@ -1,0 +1,6 @@
+group WebSharper
+WebSharper
+WebSharper.Fable.Core
+WebSharper.FSharp
+WebSharper.React
+FSharp.Core

@@ -1,0 +1,8 @@
+group WebSharper
+WebSharper
+WebSharper.Browser.MediaQueryList
+WebSharper.Fable.Core
+
+WebSharper.FSharp
+WebSharper.React
+FSharp.Core

@@ -1,3 +1,25 @@
+group WebSharper 
+    source https://api.nuget.org/v3/index.json
+    source https://nuget.pkg.github.com/dotnet-websharper/index.json
+    source ../localnuget
+
+    framework: net6.0, netstandard2.0
+    strategy: min
+    storage: none
+
+    nuget WebSharper prerelease
+    nuget WebSharper.FSharp prerelease
+    nuget WebSharper.Browser.Dom prerelease
+    nuget WebSharper.Browser.Event prerelease
+    nuget WebSharper.Fable.Core prerelease
+    nuget WebSharper.Browser.MediaQueryList prerelease
+    nuget WebSharper.React prerelease
+    nuget WebSharper.Fable.Elmish prerelease
+
+group wsbuild
+    git https://github.com/dotnet-websharper/build-script websharper50
+
+
 group Main
     source https://api.nuget.org/v3/index.json
     storage:none
@@ -12,6 +34,7 @@ nuget Fable.Elmish.React 4.0.0-beta-4 beta
     nuget Fable.Promise >= 3.1
     nuget FSharp.Core >= 4.7.2
     nuget Zanaptak.TypedCssClasses
+    
 
 group Build
   framework >= net45

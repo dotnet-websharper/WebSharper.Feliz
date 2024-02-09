@@ -1,0 +1,8 @@
+group WebSharper
+WebSharper
+WebSharper.Browser.Dom
+WebSharper.Browser.Event
+WebSharper.Fable.Core
+WebSharper.FSharp
+WebSharper.React
+FSharp.Core
