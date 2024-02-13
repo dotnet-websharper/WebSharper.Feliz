@@ -4,7 +4,11 @@ open Fable.Core
 
 [<Erase;RequireQualifiedAccess>]
 module Interop =
+    #if JAVASCRIPT
+    [<WebSharper.Inline("Object.keys($x)")>]
+    #else
     [<Emit("Object.keys($0)")>]
+    #endif
     let internal objectKeys (x: obj) = jsNative
     let objectHas (keys: string list) (x: obj) =
         objectKeys(x)
