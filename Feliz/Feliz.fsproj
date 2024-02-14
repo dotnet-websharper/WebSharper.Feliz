@@ -36,7 +36,7 @@
     <ProjectReference Include="..\Feliz.CompilerPlugins\Feliz.CompilerPlugins.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.2" />
+    <PackageReference Update="FSharp.Core" Version="6.0.7" />
     <PackageReference Include="Fable.ReactDom.Types" Version="18.2.0" />
   </ItemGroup>
 </Project>

@@ -11,8 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Feliz.UseMediaQuery\Feliz.UseMediaQuery.fsproj" />
   </ItemGroup>
-    <Import Project="..\..\.paket\Paket.Restore.targets" />
-<ItemGroup>
-<ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
-</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

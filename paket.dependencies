@@ -15,6 +15,7 @@ group WebSharper
     nuget WebSharper.Browser.MediaQueryList prerelease
     nuget WebSharper.React prerelease
     nuget WebSharper.Fable.Elmish prerelease
+    nuget Fable.Elmish 4.0.2
 
 group wsbuild
     git https://github.com/dotnet-websharper/build-script websharper50
