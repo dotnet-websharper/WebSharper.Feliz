@@ -189,6 +189,9 @@ type animationEvent =
     static member pseudoElement (value: string) = Interop.mkAnimationEventAttr "pseudoElement" value
 
 module animationEvent =
+    #if JAVASCRIPT
+    [<WebSharper.Name("type_")>]
+    #endif
     type type' =
         static member animationEnd = Interop.mkAnimationEventAttr "type" "animationend"
         static member animationIteration = Interop.mkAnimationEventAttr "type" "animationiteration"

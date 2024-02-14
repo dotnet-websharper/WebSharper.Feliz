@@ -1286,8 +1286,13 @@ let felizTests = testList "Feliz Tests" [
 #endif
 ]
 
+#if JAVASCRIPT
+[<WebSharper.SPAEntryPoint>]
+let main () =
+#else
 [<EntryPoint>]
 let main (args: string []) =
+#endif
     let allTests = testList "All Tests" [
         felizTests
         PropHelperTests.propHelpersTests

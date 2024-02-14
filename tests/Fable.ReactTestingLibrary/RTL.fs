@@ -574,6 +574,9 @@ module RTL =
         /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
         ///
         /// shift does *not* cause lowercase text to become uppercase.
+        #if JAVASCRIPT
+        [<WebSharper.Name("type_0")>]
+        #endif
         static member type' (element: #HTMLElement, text: string, ?skipClick: bool, ?skipAutoClose: bool, ?initialSelectionStart: int, ?initialSelectionEnd: int) = 
             Bindings.userEvent.typeInternal(element, text, Bindings.createTypeOptions skipClick skipAutoClose None initialSelectionStart initialSelectionEnd)
         /// Writes text inside an <input> or a <textarea>.
@@ -585,6 +588,9 @@ module RTL =
         /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
         ///
         /// shift does *not* cause lowercase text to become uppercase.
+        #if JAVASCRIPT
+        [<WebSharper.Name("type_1")>]
+        #endif
         static member type' (element: #HTMLElement, text: string, delayMS: int, ?skipClick: bool, ?skipAutoClose: bool, ?initialSelectionStart: int, ?initialSelectionEnd: int) = 
             Bindings.userEvent.typeInternal(element, text, Bindings.createTypeOptions skipClick skipAutoClose (Some delayMS) initialSelectionStart initialSelectionEnd)
             |> unbox<JS.Promise<unit>>
@@ -826,6 +832,9 @@ module RTLExtensions =
         /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
         ///
         /// shift does *not* cause lowercase text to become uppercase.
+        #if JAVASCRIPT
+        [<WebSharper.Name("type_0")>]
+        #endif
         member _.type' (text: string, ?skipClick: bool, ?skipAutoClose: bool, ?initialSelectionStart: int, ?initialSelectionEnd: int) = 
             RTL.userEvent.type' (
                 element, 
@@ -844,6 +853,9 @@ module RTLExtensions =
         /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
         ///
         /// shift does *not* cause lowercase text to become uppercase.
+        #if JAVASCRIPT
+        [<WebSharper.Name("type_1")>]
+        #endif
         member _.type' (text: string, delayMS: int, ?skipClick: bool, ?skipAutoClose: bool, ?initialSelectionStart: int, ?initialSelectionEnd: int) = 
             RTL.userEvent.type' (
                 element, 

@@ -99,7 +99,13 @@ module xAxis =
 
     [<Erase>]
     type type' =
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline number = Interop.mkXAxisAttr "type" "number"
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline category = Interop.mkXAxisAttr "type" "category"
 
     [<Erase>]

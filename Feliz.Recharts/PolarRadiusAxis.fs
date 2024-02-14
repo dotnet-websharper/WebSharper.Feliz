@@ -18,7 +18,13 @@ type polarRadiusAxis =
 module polarRadiusAxis =
     [<Erase>]
     type type' =
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline number = Interop.mkPolarRadiusAxisAttr "type" "number"
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline category = Interop.mkPolarRadiusAxisAttr "type" "category"
 
     [<Erase>]

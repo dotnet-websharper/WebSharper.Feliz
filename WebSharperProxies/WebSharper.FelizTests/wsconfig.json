@@ -2,5 +2,6 @@
   "$schema": "https://websharper.com/wsconfig.schema.json",
   "project": "library",
   "javascript": true,
-  "standAlone": true
+  "standAlone": true,
+  "outputDir": "wwwroot"
 }

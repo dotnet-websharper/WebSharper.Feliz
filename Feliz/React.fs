@@ -550,6 +550,9 @@ type React =
     ///  Where you would then pass in `asyncComponent`.
     /// </param>
     /// <param name="props">The props to be passed to the component.</param>
+    #if JAVASCRIPT
+    [<WebSharper.Name("lazy_1")>]
+    #endif
     static member lazy'<'t,'props>(dynamicImport: JS.Promise<'t>, props: 'props) =
         Interop.reactApi.createElement(Interop.reactApi.lazy'(fun () -> dynamicImport),props)
     /// <summary>
@@ -564,6 +567,9 @@ type React =
     /// Where you would then pass in `fun () -> asyncComponent`.
     /// </param>
     /// <param name="props">The props to be passed to the component.</param>
+    #if JAVASCRIPT
+    [<WebSharper.Name("lazy_2")>]
+    #endif
     static member lazy'<'t,'props>(dynamicImport: unit -> JS.Promise<'t>, props: 'props) =
         Interop.reactApi.createElement(Interop.reactApi.lazy'(dynamicImport),props)
 

@@ -104,5 +104,11 @@ module yAxis =
 
     [<Erase>]
     type type' =
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline number = Interop.mkYAxisAttr "type" "number"
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline category = Interop.mkYAxisAttr "type" "category"

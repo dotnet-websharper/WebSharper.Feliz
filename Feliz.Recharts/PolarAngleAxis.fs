@@ -39,5 +39,11 @@ module polarAngleAxis =
 
     [<Erase>]
     type type' =
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline number = Interop.mkPolarAngleAxisAttr "type" "number"
+        #if JAVASCRIPT
+        [<WebSharper.Inline>]
+        #endif
         static member inline category = Interop.mkPolarAngleAxisAttr "type" "category"
