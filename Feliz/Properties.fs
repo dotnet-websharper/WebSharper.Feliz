@@ -4,8 +4,6 @@ open Browser.Types
 open Fable.Core.JsInterop
 open Fable.Core
 #if JAVASCRIPT
-open WebSharper
-open WebSharper.JavaScript
 [<AutoOpen>]
 module DoNotOpen =
     let (?) = WebSharper.JavaScript.Pervasives.(?)
@@ -13,7 +11,7 @@ module DoNotOpen =
 //         [<Inline "new Date($y,$mo-1,$d,$h,$m,$s).getTime()"; Pure>]
 //         new(a:int,b:int,c:int,d:int,e:int,f:int) = {}
         member this.ToString(format:string) =
-            (this |> As<Date>).ToISOString()
+            (this |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString()
 #endif
 open Feliz.Styles
 open System.ComponentModel
@@ -968,7 +966,7 @@ type prop =
     /// Indicates the maximum value allowed.
     static member inline max (value: DateTime) = Interop.mkAttr "max"
                                                      #if JAVASCRIPT
-                                                     ((value |> As<Date>).ToISOString())
+                                                     ((value |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                                      #else
                                                      (value.ToString("yyyy-MM-dd"))
                                                      #endif
@@ -1001,7 +999,7 @@ type prop =
     /// Indicates the minimum value allowed.
     static member inline min (value: DateTime) = Interop.mkAttr "min" 
                                                      #if JAVASCRIPT
-                                                     ((value |> As<Date>).ToISOString())
+                                                     ((value |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                                      #else
                                                      (value.ToString("yyyy-MM-dd"))
                                                      #endif
@@ -1930,13 +1928,13 @@ type prop =
         if includeTime
         then Interop.mkAttr "value" 
                                  #if JAVASCRIPT
-                                 ((value |> As<Date>).ToISOString())
+                                 ((value |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                  #else
                                  (value.ToString("yyyy-MM-ddThh:mm"))
                                  #endif
         else Interop.mkAttr "value" 
                                  #if JAVASCRIPT
-                                 ((value |> As<Date>).ToISOString())
+                                 ((value |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                  #else
                                  (value.ToString("yyyy-MM-dd"))
                                  #endif
@@ -1950,13 +1948,13 @@ type prop =
             if includeTime
             then Interop.mkAttr "value" 
                                          #if JAVASCRIPT
-                                         ((date |> As<Date>).ToISOString())
+                                         ((date |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                          #else
                                          (date.ToString("yyyy-MM-ddThh:mm"))
                                          #endif
             else Interop.mkAttr "value" 
                                          #if JAVASCRIPT
-                                         ((date |> As<Date>).ToISOString())
+                                         ((date |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Date>).ToISOString())
                                          #else
                                          (date.ToString("yyyy-MM-dd"))
                                          #endif

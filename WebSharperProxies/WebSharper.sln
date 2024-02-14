@@ -29,6 +29,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Feliz.UseMediaQu
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.Feliz.Recharts", "WebSharper.Feliz.Recharts\WebSharper.Feliz.Recharts.fsproj", "{79BEE0A2-1214-41B5-A2F4-C09D207E5FCB}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.FelizTests", "WebSharper.FelizTests\WebSharper.FelizTests.fsproj", "{0A868F27-0612-447D-B6AB-FAC64D024528}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{79BEE0A2-1214-41B5-A2F4-C09D207E5FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79BEE0A2-1214-41B5-A2F4-C09D207E5FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79BEE0A2-1214-41B5-A2F4-C09D207E5FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A868F27-0612-447D-B6AB-FAC64D024528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A868F27-0612-447D-B6AB-FAC64D024528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A868F27-0612-447D-B6AB-FAC64D024528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A868F27-0612-447D-B6AB-FAC64D024528}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

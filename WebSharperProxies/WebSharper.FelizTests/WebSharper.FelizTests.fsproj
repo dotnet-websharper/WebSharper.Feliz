@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);JAVASCRIPT</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../WebSharper.Feliz.Delay/WebSharper.Feliz.Delay.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz.UseElmish/WebSharper.Feliz.UseElmish.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz.Recharts/WebSharper.Feliz.Recharts.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz.Markdown/WebSharper.Feliz.Markdown.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz.PigeonMaps/WebSharper.Feliz.PigeonMaps.fsproj" />
+    <ProjectReference Include="../WebSharper.Feliz.Popover/WebSharper.Feliz.Popover.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Proxies.fs" />
+    <Compile Include="../../tests/Fable.ReactTestingLibrary\Types.fs" />
+    <Compile Include="../../tests/Fable.ReactTestingLibrary\Interop.fs" />
+    <Compile Include="../../tests/Fable.ReactTestingLibrary\Bindings.fs" />
+    <Compile Include="../../tests/Fable.ReactTestingLibrary\Events.fs" />
+    <Compile Include="../../tests/Fable.ReactTestingLibrary\RTL.fs" />
+    <Compile Include="../../tests/Utilities.fs" />
+    <Compile Include="../../tests/CodeSplitting.fs" />
+    <Compile Include="../../tests/PropHelpersTests.fs" />
+    <Compile Include="../../tests/Delay.fs" />
+    <Compile Include="../../tests/Tests.fs" />
+    <None Include="paket.references" />
+    <None Include="wsconfig.json" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

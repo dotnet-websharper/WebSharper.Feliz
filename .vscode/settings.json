@@ -3,5 +3,6 @@
     "FSharp.simplifyNameAnalyzer": false,
     "FSharp.linter": false,
     "FSharp.lineLens.enabled": "never",
-    "FSharp.inlayHints.typeAnnotations": false
+    "FSharp.inlayHints.typeAnnotations": false,
+    "editor.inlayHints.enabled": "offUnlessPressed"
 }

@@ -46,10 +46,18 @@ let delaySuspenseComp = React.functionComponent(fun () ->
         ]
 
         delaySuspense.children [
+            #if JAVASCRIPT
+            // TODO
+            React.lazy'(WebSharper.JavaScript.Promise.Do {
+                do! (Promise.sleep 1000 |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Promise<unit>>)
+                return! (asyncComponent |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Promise<unit -> ReactElement>>)
+            } |> WebSharper.JavaScript.Pervasives.As<Fable.Core.JS.Promise<unit -> ReactElement>>, ())
+            #else
             React.lazy'(promise {
                 do! Promise.sleep 1000
                 return! asyncComponent
             }, ())
+            #endif
         ]
     ])
 
@@ -64,7 +72,11 @@ let delayTests = testList "Feliz.Delay Tests" [
             RTL.waitFor <| fun () ->
                 Expect.isTrue (render.queryByTestId "fallback" |> Option.isNone) "Fallback is no longer rendered"
                 Expect.isTrue (render.queryByTestId "render" |> Option.isSome) "Child is now rendered"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "delaySuspense does not render until after time has passed" <| async {
@@ -79,7 +91,11 @@ let delayTests = testList "Feliz.Delay Tests" [
                 Expect.isTrue (render.queryByTestId "fallback" |> Option.isNone) "Fallback is no longer rendered"
                 Expect.isTrue (render.queryByTestId "render" |> Option.isSome) "Child is now rendered"
                 Expect.isTrue (render.queryByTestId "async-load" |> Option.isNone) "Suspense child is still not rendered"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
 
         do! Async.Sleep 1000
 
@@ -89,6 +105,10 @@ let delayTests = testList "Feliz.Delay Tests" [
                 Expect.isTrue (render.queryByTestId "render" |> Option.isNone) "delay child is no longer rendered"
                 Expect.isTrue (render.queryByTestId "async-load" |> Option.isSome) "Suspense child is now rendered"
                 
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 ]

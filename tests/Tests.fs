@@ -227,10 +227,17 @@ let codeSplitting = React.functionComponent(fun () ->
     React.suspense([
         Html.div [
             React.lazy'((fun () ->
+                #if JAVASCRIPT
+                WebSharper.JavaScript.Promise.Do {
+                    do! (Promise.sleep 1000 |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Promise<unit>>)
+                    return! (asyncComponent |> WebSharper.JavaScript.Pervasives.As<WebSharper.JavaScript.Promise<unit -> ReactElement>>)
+                } |> WebSharper.JavaScript.Pervasives.As<Fable.Core.JS.Promise<unit -> ReactElement>>
+                #else
                 promise {
                     do! Promise.sleep 1000
                     return! asyncComponent
                 }
+                #endif
             ),())
         ]
     ], codeSplittingLoading()))
@@ -917,7 +924,12 @@ let felizTests = testList "Feliz Tests" [
 
         do! Async.Sleep 1000
 
-        do! RTL.waitFor(fun () -> RTL.userEvent.click(buttonRef)) |> Async.AwaitPromise
+        do! RTL.waitFor(fun () -> RTL.userEvent.click(buttonRef)) 
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
+            |> Async.AwaitPromise
+            #endif
         Expect.isTrue (buttonField.innerText = "1") "Child component has not re-rendered"
         Expect.isTrue (parentField.innerText <> "1") "Parent component has re-rendered"
         Expect.isTrue (mainField.innerText <> "1" && mainField.innerText <> "") "Count was updated by child component"
@@ -929,7 +941,12 @@ let felizTests = testList "Feliz Tests" [
         let input = render.getByTestId "focus-input"
 
         Expect.isFalse (input = unbox document.activeElement) "Input is not focused yet before clicking button"
-        do! RTL.waitFor(fun () -> RTL.userEvent.click(button)) |> Async.AwaitPromise
+        do! RTL.waitFor(fun () -> RTL.userEvent.click(button)) 
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
+            |> Async.AwaitPromise
+            #endif
         Expect.isTrue (input = unbox document.activeElement) "Input is now active"
     }
 
@@ -960,7 +977,12 @@ let felizTests = testList "Feliz Tests" [
         let text = render.getByTestId "focus-text"
 
         Expect.isFalse (text.innerText <> "") "Div has empty text value"
-        do! RTL.waitFor(fun () -> RTL.userEvent.click(button)) |> Async.AwaitPromise
+        do! RTL.waitFor(fun () -> RTL.userEvent.click(button)) 
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
+            |> Async.AwaitPromise
+            #endif
         Expect.isTrue (text.innerText = "Howdy!") "Div has text value set"
     }
     testReact "funcComps work correctly" <| fun _ ->
@@ -1002,7 +1024,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal renderCount.innerText "3" "Renders three times due to areEqual and withKey evals"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReact "can handle select multiple with defaultValue" <| fun _ ->
@@ -1067,7 +1093,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId "useTokenCancellation").innerText "Disposed" "Cancels all subsequent re-renders and calls the disposal function"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "useCancellationToken works correctly - failure case" <| async {
@@ -1078,7 +1108,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId "useTokenCancellation").innerText "Failed" "Cancels all subsequent re-renders and calls the disposal function"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "Can dispose of optional IDisposables" <| async {
@@ -1091,7 +1125,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("was-disposed").innerText) "true" "Should have been disposed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "Does not dispose of optional IDisposables that are None" <| async {
@@ -1106,7 +1144,11 @@ let felizTests = testList "Feliz Tests" [
         if innerElem.IsSome then
             do!
                 RTL.waitForElementToBeRemoved(fun () -> render.queryByTestId("dispose-inner"))
+                #if JAVASCRIPT
+                |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+                #else
                 |> Async.AwaitPromise
+                #endif
 
         Expect.equal (render.getByTestId("was-disposed").innerText) "false" "Should not have been disposed"
     }
@@ -1121,7 +1163,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("disposed-count").innerText) "2" "Should have been disposed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
 #if FABLE_COMPILER_3 || FABLE_COMPILER_4
@@ -1135,7 +1181,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "1" "Should have been incremented"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     // See https://github.com/fable-compiler/fable-promise/issues/24#issuecomment-934328900
@@ -1149,7 +1199,11 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "2" "Should have been incremented twice"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "useElmish works with dependencies" <| async {
@@ -1162,21 +1216,33 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "1" "Should have been incremented"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
 
         render.getByTestId("increment-wrapper").click()
 
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "1" "State should be same because dependency hasn't changed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
 
         render.getByTestId("increment-wrapper").click()
 
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "0" "State should have been reset because dependency has changed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 
     testReactAsync "useElmish works with React.strictMode" <| async {
@@ -1189,21 +1255,33 @@ let felizTests = testList "Feliz Tests" [
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "1" "Should have been incremented"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
 
         render.getByTestId("increment-wrapper").click()
 
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "1" "State should be same because dependency hasn't changed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
 
         render.getByTestId("increment-wrapper").click()
 
         do!
             RTL.waitFor <| fun () ->
                 Expect.equal (render.getByTestId("count").innerText) "0" "State should have been reset because dependency has changed"
+            #if JAVASCRIPT
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            #else
             |> Async.AwaitPromise
+            #endif
     }
 #endif
 ]

@@ -9,4 +9,8 @@ let myCodeSplitComponent = React.functionComponent(fun () ->
         prop.text "Loaded"
     ])
 
+#if JAVASCRIPT
+// ctrl+f friendliness
+#else
 exportDefault myCodeSplitComponent
+#endif

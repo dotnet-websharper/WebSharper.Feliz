@@ -1,0 +1,11 @@
+group WebSharper
+WebSharper
+WebSharper.Fable.Elmish
+WebSharper.Fable.Core
+
+WebSharper.FSharp
+WebSharper.React
+WebSharper.Fable.Mocha
+FSharp.Core
+Fable.Elmish
+Fable.Promise

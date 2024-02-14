@@ -48,5 +48,9 @@ let ftestReactAsync name test =
         return ()
     }
 
+#if JAVASCRIPT
+[<WebSharper.Inline("$x['style'][$key]")>]
+#else
 [<Emit("$1['style'][$0]")>]
+#endif
 let getStyle<'t> (key: string) (x: HTMLElement) : 't = jsNative

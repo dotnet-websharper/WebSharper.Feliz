@@ -1,8 +1,4 @@
 namespace Feliz
-#if JAVASCRIPT
-open WebSharper.React
-open WebSharper
-#endif
 open Fable.React
 open Fable.Core
 open Fable.Core.JsInterop
