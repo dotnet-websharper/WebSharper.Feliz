@@ -1,14 +1,13 @@
 namespace Feliz
 
 open System
+open Fable.Core
 #if JAVASCRIPT
 open WebSharper
 #endif
-open Fable.Core
 
 type ReactDOM =
     [<Import("render", "react-dom"); Obsolete("ReactDOM.render is obsolete since React v18. Please use the ReactDOM.createRoot API instead")>]
-    
     #if JAVASCRIPT
     [<Inline>]
     #endif
