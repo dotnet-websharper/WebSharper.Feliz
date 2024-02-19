@@ -3,5 +3,6 @@
   "project": "library",
   "javascript": true,
   "standAlone": true,
+  "stubInterfaces": true,
   "outputDir": "wwwroot"
 }

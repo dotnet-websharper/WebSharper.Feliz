@@ -59,6 +59,9 @@ module DateParsing =
 
 [<RequireQualifiedAccess>]
 module Interop =
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let reactApi : IReactApi = 
         #if JAVASCRIPT
         WebSharper.JavaScript.JS.ImportDefault
@@ -69,7 +72,7 @@ module Interop =
     #if FABLE_COMPILER_3 || FABLE_COMPILER_4
     let inline reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
     #elif JAVASCRIPT
-    let [<Inline>] reactElement (name: string) (props: 'a) : ReactElement = JS.Import("createElement","react")
+    let [<WebSharper.Inline>] reactElement (name: string) (props: 'a) : ReactElement = JS.Import("createElement","react")
     #else
     let reactElement (name: string) (props: 'a) : Feliz.ReactElement = import "createElement" "react"
     #endif

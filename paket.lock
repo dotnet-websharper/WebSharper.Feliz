@@ -105,7 +105,7 @@ NUGET
     System.Reflection.Emit.Lightweight (4.7)
       System.Reflection.Emit.ILGeneration (>= 4.7) - restriction: || (&& (== net6.0) (< netcoreapp2.0) (< netstandard2.1)) (&& (== net6.0) (< netstandard2.0)) (&& (== net6.0) (< portable-net45+wp8)) (&& (== net6.0) (>= uap10.1)) (== netstandard2.0)
   remote: https://nuget.pkg.github.com/dotnet-websharper/index.json
-    WebSharper (7.0.6.416-beta4)
+    WebSharper (7.0.6.420-beta4)
       FSharp.Core (>= 6.0)
       System.Reflection.Emit.Lightweight (>= 4.7)
     WebSharper.Browser.Dom (7.0.0.418-beta4)
@@ -123,11 +123,11 @@ NUGET
       FSharp.Core (>= 6.0.7)
       WebSharper (>= 7.0.6.405-beta4)
       WebSharper.FSharp (>= 7.0.6.405-beta4)
-    WebSharper.Fable.Mocha (7.0.0.416-beta4)
+    WebSharper.Fable.Mocha (7.0.0.423-beta4)
       Fable.Mocha (2.17)
       WebSharper (>= 7.0.6 < 7.1)
-    WebSharper.FSharp (7.0.6.416-beta4)
-      WebSharper (7.0.6.416-beta4)
+    WebSharper.FSharp (7.0.6.420-beta4)
+      WebSharper (7.0.6.420-beta4)
     WebSharper.React (7.0.5.407-beta4)
       WebSharper (>= 7.0.6 < 7.1)
 

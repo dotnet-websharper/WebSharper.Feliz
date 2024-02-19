@@ -13,10 +13,19 @@ module Bindings =
     type Matcher =
         U3<string, Regex, string * HTMLElement -> bool>
     
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let act : (unit -> unit) -> unit  = import "act" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let configure : IConfigureOptions -> unit = import "configure" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let cleanup : unit -> unit = import "cleanup" "@testing-library/react"
 
     type CreateEvent =
@@ -104,10 +113,17 @@ module Bindings =
         abstract waiting: node: #HTMLElement * ?eventProperties:obj -> Event
         abstract wheel: node: #HTMLElement * ?eventProperties:obj -> MouseEvent
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let createEvent: CreateEvent = import "createEvent" "@testing-library/react"
 
     type FireEvent =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this($node,$event)")>]
+        #else
         [<Emit("$0($1,$2)")>]
+        #endif
         abstract custom: node:HTMLElement * event:#Browser.Types.Event -> unit
 
         abstract abort: node: #HTMLElement * ?eventProperties:obj -> unit
@@ -193,7 +209,10 @@ module Bindings =
         abstract volumeChange: node: #HTMLElement * ?eventProperties:obj -> unit
         abstract waiting: node: #HTMLElement * ?eventProperties:obj -> unit
         abstract wheel: node: #HTMLElement * ?eventProperties:obj -> unit
-        
+    
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let fireEvent : FireEvent = import "fireEvent" "@testing-library/react"
 
     let getNodeText<'Element when 'Element :> HTMLElement> : 'Element -> string = import "getNodeText" "@testing-library/react"
@@ -205,9 +224,16 @@ module Bindings =
     let logRoles<'Element when 'Element :> HTMLElement> : 'Element -> unit = import "logRoles" "@testing-library/react"
 
     type PrettyDOM =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this($node,$maxLength,$options)")>]
+        #else
         [<Emit("$0($1)")>]
+        #endif
         abstract invoke<'Element when 'Element :> HTMLElement> : node:'Element * ?maxLength: int * ?options:IPrettyDOMOptions -> string
-
+    
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let prettyDOMImport : PrettyDOM = import "prettyDOM" "@testing-library/react"
 
     type QueriesForElement =
@@ -273,7 +299,7 @@ module Bindings =
           if hydrate.IsSome then "hydrate" ==> hydrate.Value
           if wrapper.IsSome then "wrapper" ==> wrapper.Value ]
         |> fun res -> createObj !!res
-
+    
     type Render<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> =
         inherit QueriesForElement
         abstract baseElement: 'BaseElement with get
@@ -3680,9 +3706,16 @@ module Bindings =
             |> Promise.map List.ofSeq
 
     type RenderImport =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this($reactElement, $options)")>]
+        #else 
         [<Emit("$0($1)")>]
+        #endif
         abstract invoke<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> : reactElement:ReactElement * ?options:obj -> Render<'BaseElement,'Container>
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let renderImport : RenderImport = import "render" "@testing-library/react"
 
     type render<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> (render: Render<'BaseElement,'Container>) =
@@ -3759,43 +3792,90 @@ module Bindings =
         abstract clear: element:#HTMLElement -> unit
         abstract click: element:#HTMLElement * ?eventInit:obj * ?options:obj -> unit
         abstract dblClick: element:#HTMLElement * ?eventInit:obj -> unit
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this.deselectOptions($element, Array.from($values))")>]
+        #else
         [<Emit("$0.deselectOptions($1, Array.from($2))")>]
+        #endif
         abstract deselectOptions: element:#HTMLElement * values:'T [] -> unit
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this.deselectOptions($element, Array.from($values))")>]
+        #else
         [<Emit("$0.deselectOptions($1, Array.from($2))")>]
+        #endif
         abstract deselectOptions: element:#HTMLElement * values:'T list -> unit
         abstract deselectOptions: element:#HTMLElement * values:ResizeArray<'T> -> unit
         abstract hover: element:#HTMLElement -> unit
         abstract paste: element:#HTMLElement * text:string * ?eventInit:obj * ?options:obj -> unit
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this.selectOptions($element, Array.from($values))")>]
+        #else
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        #endif
         abstract selectOptions: element:#HTMLElement * values:'T [] -> unit
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this.selectOptions($element, Array.from($values))")>]
+        #else
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        #endif
         abstract selectOptions: element:#HTMLElement * values:'T list -> unit
         abstract selectOptions: element:#HTMLElement * values:ResizeArray<'T> -> unit
         abstract tab: ?options:obj -> unit
+        #if JAVASCRIPT
+        // [<WebSharper.Inline("$this.type($1, $2, $options)")>]
+        [<WebSharper.Name("type")>]
+        #else
         [<Emit("$0.type($1...)")>]
+        #endif
         abstract typeInternal: #HTMLElement * string * ?options: obj -> unit
         abstract unhover: #HTMLElement -> unit
         abstract upload: #HTMLElement * Browser.Types.File * ?options: obj -> unit
         abstract upload: #HTMLElement * ResizeArray<Browser.Types.File> * ?options: obj -> unit
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 
     type WaitFor =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$callback($options)")>]
+        #endif
         [<Emit("$0($1)")>]
         abstract invoke: callback: (unit -> unit) * ?options: IWaitOptions -> JS.Promise<unit>
-
+    
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let waitForImport : WaitFor = import "waitFor" "@testing-library/react"
 
     type WaitForElementToBeRemoved =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$callback($options)")>]
+        #else
         [<Emit("$0($1...)")>]
+        #endif
         abstract invoke: callback: (unit -> #HTMLElement option) * ?options: IWaitOptions -> JS.Promise<unit>
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$callback($options)")>]
+        #else
         [<Emit("$0($1...)")>]
+        #endif
         abstract invoke: callback: (unit -> ResizeArray<#HTMLElement>) * ?options: IWaitOptions -> JS.Promise<unit>
 
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let waitForElementToBeRemovedImport : WaitForElementToBeRemoved = import "waitForElementToBeRemoved" "@testing-library/react"
 
     type Within =
+        #if JAVASCRIPT
+        [<WebSharper.Inline("$this($node)")>]
+        #else
         [<Emit("$0($1)")>]
+        #endif
         abstract invoke<'Element when 'Element :> HTMLElement> : node:'Element -> QueriesForElement
-
+    #if JAVASCRIPT
+    [<WebSharper.Inline>]
+    #endif
     let withinImport : Within = import "within" "@testing-library/react"

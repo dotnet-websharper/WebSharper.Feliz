@@ -221,7 +221,12 @@ let codeSplittingLoading = React.functionComponent(fun () ->
         prop.text "Loading"
     ])
 
-let asyncComponent : JS.Promise<unit -> ReactElement> = JsInterop.importDynamic "./CodeSplitting.fs"
+let asyncComponent : JS.Promise<unit -> ReactElement> = JsInterop.importDynamic 
+                                                            #if JAVASCRIPT
+                                                            "./CodeSplitting.js"
+                                                            #else
+                                                            "./CodeSplitting.fs"
+                                                            #endif
 
 let codeSplitting = React.functionComponent(fun () ->
     React.suspense([

@@ -14,6 +14,9 @@ open Feliz
 open System
 
 type ReactChildren =
+    #if JAVASCRIPT
+    [<WebSharper.Inline "$0.toArray($1)">]
+    #endif
     abstract toArray: ReactElement -> ReactElement seq
     abstract toArray: ReactElement seq -> ReactElement seq
 

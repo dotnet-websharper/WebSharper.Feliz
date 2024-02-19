@@ -5,6 +5,7 @@ open WebSharper.Core
 
 [<AutoOpen>]
 module internal WsHelpers =
+    
     let (|IsRecord|_|) expr =
         let rec exprEval expression =
             match expression with
@@ -103,6 +104,22 @@ type ReactComponentMacro() =
             match mc.Compilation.GetCustomTypeInfo ct.Entity with
             | Metadata.FSharpRecordInfo recordFields -> Some recordFields
             | _ -> None
+        
+        [|
+            mc.Compilation.GetMethodAttributes(mc.DefiningType.Entity,mc.Method.Entity)
+            mc.Compilation.GetTypeAttributes(mc.DefiningType.Entity)
+        |]
+        |> Array.choose id
+        |> Array.collect Array.ofList
+        |> Array.distinct
+        |> Array.iter (fun (td,ps) ->
+            match td.Value.FullName.EndsWith "ReactComponentAttribute", ps with
+            | true, [|Metadata.ParameterObject.String name;Metadata.ParameterObject.String import;Metadata.ParameterObject.String from|] ->
+                // TODO
+                ()
+            | _ -> ()
+            
+        )
         let paramNames =
             mc.Compilation.GetMetadataEntries
                 (Metadata.MetadataEntry.CompositeEntry

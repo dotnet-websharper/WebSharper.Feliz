@@ -27,7 +27,12 @@ let suspenseCompInner = React.functionComponent(fun () ->
         prop.testId "suspense-child"
     ])
 
-let asyncComponent : JS.Promise<unit -> ReactElement> = JsInterop.importDynamic "./CodeSplitting.fs"
+let asyncComponent : JS.Promise<unit -> ReactElement> = JsInterop.importDynamic 
+                                                            #if JAVASCRIPT
+                                                            "./CodeSplitting.js"
+                                                            #else
+                                                            "./CodeSplitting.fs"
+                                                            #endif
 
 let delaySuspenseComp = React.functionComponent(fun () ->
     React.delaySuspense [
