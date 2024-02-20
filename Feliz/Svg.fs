@@ -1,9 +1,6 @@
 ﻿namespace Feliz
 
 open Browser.Types
-// #if JavaScript
-// open WebSharper
-// #endif
 open Fable.Core
 open Feliz.Styles
 

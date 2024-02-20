@@ -2,10 +2,6 @@ namespace Feliz
 
 open System
 open System.ComponentModel
-// #if JAVASCRIPT
-// open WebSharper
-// open WebSharper.JavaScript
-// #endif
 open Fable.Core
 open Fable.Core.JsInterop
 open Browser.Types
@@ -59,6 +55,7 @@ type internal Internal() =
             fun props ->
                 let props = props |> propsWithKey withKey
                 Interop.reactApi.createElement(memoElementType, props)
+
 
 type React =
     /// Creates a disposable instance by providing the implementation of the dispose member.
@@ -622,7 +619,7 @@ type React =
     /// </summary>
     [<Hook>]
     static member inline useCancellationToken () =
-        let cts = React.useRef(new System.Threading.CancellationTokenSource(Int32.MaxValue))
+        let cts = React.useRef(new System.Threading.CancellationTokenSource())
         let token = React.useRef(cts.current.Token)
 
         React.useEffectOnce(fun () ->

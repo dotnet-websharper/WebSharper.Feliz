@@ -62,27 +62,16 @@ module Interop =
     #if JAVASCRIPT
     [<WebSharper.Inline>]
     #endif
-    let reactApi : IReactApi = 
-        #if JAVASCRIPT
-        WebSharper.JavaScript.JS.ImportDefault
-        #else
-        importDefault
-        #endif 
-            "react"
+    let reactApi : IReactApi = importDefault "react"
     #if FABLE_COMPILER_3 || FABLE_COMPILER_4
     let inline reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
     #elif JAVASCRIPT
-    let [<WebSharper.Inline>] reactElement (name: string) (props: 'a) : ReactElement = JS.Import("createElement","react")
+    let [<WebSharper.Inline>] reactElement (name: string) (props: 'a) : ReactElement = reactApi.createElement(name,props)
     #else
     let reactElement (name: string) (props: 'a) : Feliz.ReactElement = import "createElement" "react"
     #endif
     let inline mkAttr (key: string) (value: obj) : IReactProperty = unbox (key, value)
-    // #if JAVASCRIPT
-    // [<WebSharper.Inline "undefined">]
-    // #else
-    // [<Emit "undefined">]
-    // #endif
-    // let undefined : obj = jsNative
+    // let undefined : obj = jsNative // ws error if not uncommented, doesn't break anything though
     let inline mkStyle (key: string) (value: obj) : IStyleAttribute = unbox (key, value)
     let inline svgAttribute (key: string) (value: obj) : ISvgAttribute = unbox (key, value)
     let inline reactElementWithChild (name: string) (child: 'a) =

@@ -1,8 +1,6 @@
 module Feliz.ReactApi
 
 #if JAVASCRIPT
-open WebSharper
-// open WebSharper.React
 type private ParamListAttribute = System.ParamArrayAttribute // TODO: something better
 #endif
 open Fable.React
@@ -14,9 +12,9 @@ open Feliz
 open System
 
 type ReactChildren =
-    #if JAVASCRIPT
-    [<WebSharper.Inline "$0.toArray($1)">]
-    #endif
+    // #if JAVASCRIPT
+    // [<WebSharper.Inline "$0.toArray($1)">]
+    // #endif
     abstract toArray: ReactElement -> ReactElement seq
     abstract toArray: ReactElement seq -> ReactElement seq
 
@@ -27,7 +25,7 @@ type IReactApi =
     abstract createElement: comp: obj * props: obj * [<ParamList>] children: Feliz.ReactElement seq -> Feliz.ReactElement
     abstract forwardRef: render: Func<'props,IRefValue<'t>,Feliz.ReactElement> -> ('props -> IRefValue<'t> -> Feliz.ReactElement)
     #if JAVASCRIPT
-    [<Inline("$this.lazy($import)")>]
+    [<WebSharper.Inline("$0.lazy($1)")>]
     #else
     [<Emit("$0.lazy($1)")>]
     #endif
@@ -40,13 +38,9 @@ type IReactApi =
     abstract useEffect: obj * 't array -> unit
     abstract useEffect: obj -> unit
     abstract useEffect: (unit -> unit) -> unit
-    // #if JAVASCRIPT
-    // abstract useImperativeHandle<'t> : ref: React.Ref<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
-    // #else
     abstract useImperativeHandle<'t> : ref: Feliz.IRefValue<'t> -> createHandle: (unit -> 't) -> dependencies: obj array -> unit
-    // #endif
     #if JAVASCRIPT
-    [<Inline("$this.useImperativeHandle($ref,$createHandle)")>]
+    [<WebSharper.Inline("$this.useImperativeHandle($ref,$createHandle)")>]
     #else
     [<Emit("$0.useImperativeHandle($1, $2)")>]
     #endif
@@ -54,7 +48,7 @@ type IReactApi =
     abstract useMemo: createFunction: (unit -> 'a) -> dependencies: obj array -> 'a
     abstract useReducer: ('state -> 'msg -> 'state) -> 'state -> ('state * ('msg -> unit))
     #if JAVASCRIPT
-    [<Inline("$this.useRef($initial)")>]
+    [<WebSharper.Inline("$this.useRef($initial)")>]
     #else
     [<Emit "$0.useRef($1)">]
     #endif

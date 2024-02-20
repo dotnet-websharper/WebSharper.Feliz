@@ -44,18 +44,18 @@ module internal ReactProxies =
     [<Proxy(typeof<Fable.React.ReactElementType<_>>)>]
     type ElTypeProxy<'T> = WebSharper.React.React.ElementType<'T>
         
-    [<Proxy(typeof<Fable.React.IReactExports>)>]
+    [<Proxy(typeof<Fable.React.IReactExports>);Import("react");Stub>]
     type ReactExportsProxy =
-        [<Import("createContext","react");Inline "createContext($defaultValue)">]
+        // [<Import("createContext","react");>]
         abstract createContext<'T> : defaultValue:'T -> Fable.React.IContext<'T>
         // default this.createContext<'T> (defaultValue:'T) : Fable.React.IContext<'T> = WebSharper.React.React.CreateContext defaultValue |> As
         
-        [<Import("createElement","react");Inline "createElement($comp,$props,$children)">]
+        // [<Import("createElement","react");>]
         abstract createElement : comp: obj * props: obj * children: Fable.React.ReactElement seq -> Fable.React.ReactElement
         // default this.createElement<'T>(comp:obj,props:obj, children: Fable.React.ReactElement seq) : Fable.React.ReactElement =
         //     React.React.CreateElement(comp, props, children |> As) |> As
         
-        [<Import("Fragment","react")>]
+        // [<Import("Fragment","react")>]
         abstract Fragment : Fable.React.ReactElementType<obj> with get
         // default this.Fragment with get () : Fable.React.ReactElementType<obj> = WebSharper.React.React.Fragment |> As
         
