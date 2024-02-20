@@ -11,6 +11,9 @@ open Feliz
 
 open System
 
+#if JAVASCRIPT
+[<WebSharper.Stub>]
+#endif
 type ReactChildren =
     // #if JAVASCRIPT
     // [<WebSharper.Inline "$0.toArray($1)">]
@@ -18,6 +21,9 @@ type ReactChildren =
     abstract toArray: ReactElement -> ReactElement seq
     abstract toArray: ReactElement seq -> ReactElement seq
 
+#if JAVASCRIPT
+[<WebSharper.Stub>]
+#endif
 type IReactApi =
     abstract Children: ReactChildren
     abstract createContext: defaultValue: 'a -> IContext<'a>

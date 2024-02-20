@@ -6,7 +6,12 @@ open Fable.Core.JsInterop
 open Feliz
 open System.ComponentModel
 open System.Text.RegularExpressions
-
+#if JAVASCRIPT
+[<AutoOpen>]
+module DoNotTouch =
+    [<WebSharper.Inline>]
+    let (!^) (a:'T0) : 'T1 = WebSharper.JavaScript.Pervasives.As<'T1> a
+#endif
 [<RequireQualifiedAccess>]
 module Bindings =
     
@@ -28,6 +33,9 @@ module Bindings =
     #endif
     let cleanup : unit -> unit = import "cleanup" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type CreateEvent =
         abstract abort: node: #HTMLElement * ?eventProperties:obj -> ProgressEvent
         abstract animationEnd: node: #HTMLElement * ?eventProperties:obj -> UIEvent
@@ -118,6 +126,9 @@ module Bindings =
     #endif
     let createEvent: CreateEvent = import "createEvent" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type FireEvent =
         #if JAVASCRIPT
         [<WebSharper.Inline("$this($node,$event)")>]
@@ -223,6 +234,9 @@ module Bindings =
 
     let logRoles<'Element when 'Element :> HTMLElement> : 'Element -> unit = import "logRoles" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type PrettyDOM =
         #if JAVASCRIPT
         [<WebSharper.Inline("$this($node,$maxLength,$options)")>]
@@ -236,6 +250,9 @@ module Bindings =
     #endif
     let prettyDOMImport : PrettyDOM = import "prettyDOM" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type QueriesForElement =
         abstract getByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
         abstract getAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
@@ -300,6 +317,9 @@ module Bindings =
           if wrapper.IsSome then "wrapper" ==> wrapper.Value ]
         |> fun res -> createObj !!res
     
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type Render<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> =
         inherit QueriesForElement
         abstract baseElement: 'BaseElement with get
@@ -311,67 +331,46 @@ module Bindings =
         abstract rerender: ReactElement -> unit
         abstract unmount: unit -> unit
         
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type queriesForElement (queryApi: QueriesForElement) =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
         member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) =
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
         member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
         member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
         member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
         member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
         member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -380,63 +379,39 @@ module Bindings =
         [<CompiledName("queryByLabelTextAs")>]
         member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
         member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
-        /// This throws if more than one match is found (use queryAllBy instead).
+        ///This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
         member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
         member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
         member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
         member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -447,11 +422,7 @@ module Bindings =
         [<CompiledName("findByLabelTextAs")>]
         member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -460,11 +431,7 @@ module Bindings =
         [<CompiledName("findByLabelTextAs")>]
         member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -473,11 +440,7 @@ module Bindings =
         [<CompiledName("findByLabelTextAs")>]
         member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -485,11 +448,7 @@ module Bindings =
         [<CompiledName("findAllByLabelTextAs")>]
         member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -497,11 +456,7 @@ module Bindings =
         [<CompiledName("findAllByLabelTextAs")>]
         member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -509,11 +464,7 @@ module Bindings =
         [<CompiledName("findAllByLabelTextAs")>]
         member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<'Element>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -521,61 +472,37 @@ module Bindings =
         [<CompiledName("getByPlaceholderTextAs")>]
         member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
         member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
         member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
         member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
         member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
         member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
             
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -584,63 +511,39 @@ module Bindings =
         [<CompiledName("queryByPlaceholderTextAs")>]
         member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
         member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
         member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
         member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
         member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
         member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -651,11 +554,7 @@ module Bindings =
         [<CompiledName("findByPlaceholderTextAs")>]
         member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -664,11 +563,7 @@ module Bindings =
         [<CompiledName("findByPlaceholderTextAs")>]
         member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -677,11 +572,7 @@ module Bindings =
         [<CompiledName("findByPlaceholderTextAs")>]
         member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -689,11 +580,7 @@ module Bindings =
         [<CompiledName("findAllByPlaceholderTextAs")>]
         member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -701,11 +588,7 @@ module Bindings =
         [<CompiledName("findAllByPlaceholderTextAs")>]
         member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -713,11 +596,7 @@ module Bindings =
         [<CompiledName("findAllByPlaceholderTextAs")>]
         member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -725,61 +604,37 @@ module Bindings =
         [<CompiledName("getByAltTextAs")>]
         member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
         member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<'Element>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
         member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
         member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
         member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
         member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -788,63 +643,39 @@ module Bindings =
         [<CompiledName("queryByAltTextAs")>]
         member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
         member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
         member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
         member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
         member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
         member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -855,11 +686,7 @@ module Bindings =
         [<CompiledName("findByAltTextAs")>]
         member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -868,11 +695,7 @@ module Bindings =
         [<CompiledName("findByAltTextAs")>]
         member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -881,11 +704,7 @@ module Bindings =
         [<CompiledName("findByAltTextAs")>]
         member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -893,11 +712,7 @@ module Bindings =
         [<CompiledName("findAllByAltTextAs")>]
         member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -905,11 +720,7 @@ module Bindings =
         [<CompiledName("findAllByAltTextAs")>]
         member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -917,11 +728,7 @@ module Bindings =
         [<CompiledName("findAllByAltTextAs")>]
         member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
 
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -929,61 +736,37 @@ module Bindings =
         [<CompiledName("getByTextAs")>]
         member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
         member _.getByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
         member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
         member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
         member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
         member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -992,63 +775,39 @@ module Bindings =
         [<CompiledName("queryByTextAs")>]
         member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
         member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
         member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
         member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
         member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
         member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1059,11 +818,7 @@ module Bindings =
         [<CompiledName("findByTextAs")>]
         member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1072,11 +827,7 @@ module Bindings =
         [<CompiledName("findByTextAs")>]
         member _.findByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1085,11 +836,7 @@ module Bindings =
         [<CompiledName("findByTextAs")>]
         member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1097,11 +844,7 @@ module Bindings =
         [<CompiledName("findAllByTextAs")>]
         member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1109,11 +852,7 @@ module Bindings =
         [<CompiledName("findAllByTextAs")>]
         member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1121,11 +860,7 @@ module Bindings =
         [<CompiledName("findAllByTextAs")>]
         member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -1133,61 +868,37 @@ module Bindings =
         [<CompiledName("getByTitleAs")>]
         member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
         member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
         member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<'Element>(!^matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
         member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
         member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
         member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -1196,63 +907,39 @@ module Bindings =
         [<CompiledName("queryByTitleAs")>]
         member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
         member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
         member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
         member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
         member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
         member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1263,11 +950,7 @@ module Bindings =
         [<CompiledName("findByTitleAs")>]
         member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1276,11 +959,7 @@ module Bindings =
         [<CompiledName("findByTitleAs")>]
         member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1289,11 +968,7 @@ module Bindings =
         [<CompiledName("findByTitleAs")>]
         member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1301,11 +976,7 @@ module Bindings =
         [<CompiledName("findAllByTitleAs")>]
         member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1313,11 +984,7 @@ module Bindings =
         [<CompiledName("findAllByTitleAs")>]
         member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1325,11 +992,7 @@ module Bindings =
         [<CompiledName("findAllByTitleAs")>]
         member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -1337,61 +1000,37 @@ module Bindings =
         [<CompiledName("getByDisplayValueAs")>]
         member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
         member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
         member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
         member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
         member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
         member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -1400,63 +1039,39 @@ module Bindings =
         [<CompiledName("queryByDisplayValueAs")>]
         member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
         member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
         member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
         member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
         member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
         member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1467,11 +1082,7 @@ module Bindings =
         [<CompiledName("findByDisplayValueAs")>]
         member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1480,11 +1091,7 @@ module Bindings =
         [<CompiledName("findByDisplayValueAs")>]
         member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1493,11 +1100,7 @@ module Bindings =
         [<CompiledName("findByDisplayValueAs")>]
         member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1505,11 +1108,7 @@ module Bindings =
         [<CompiledName("findAllByDisplayValueAs")>]
         member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1517,11 +1116,7 @@ module Bindings =
         [<CompiledName("findAllByDisplayValueAs")>]
         member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1529,11 +1124,7 @@ module Bindings =
         [<CompiledName("findAllByDisplayValueAs")>]
         member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -1541,81 +1132,49 @@ module Bindings =
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.getByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.getByRole<'Element>(!^ role)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.getAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.getAllByRole<'Element>(!^ role)
-            #endif
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
@@ -1623,84 +1182,52 @@ module Bindings =
         [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.queryByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.queryByRole<'Element>(!^ role)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.queryAllByRole<'Element>(!^ role)
-            #endif
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
@@ -1710,11 +1237,7 @@ module Bindings =
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1723,11 +1246,7 @@ module Bindings =
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1736,11 +1255,7 @@ module Bindings =
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1749,11 +1264,7 @@ module Bindings =
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.findByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.findByRole<'Element>(!^ role)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1761,11 +1272,7 @@ module Bindings =
         [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1773,11 +1280,7 @@ module Bindings =
         [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1785,11 +1288,7 @@ module Bindings =
         [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1797,72 +1296,44 @@ module Bindings =
         [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.findAllByRole<'Element>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.findAllByRole<'Element>(!^ role)
-            #endif
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
         member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
         member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
         member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
         member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
         member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
         member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -1871,63 +1342,39 @@ module Bindings =
         [<CompiledName("queryByTestIdAs")>]
         member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
         member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
         member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
         member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
         member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
         member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1938,11 +1385,7 @@ module Bindings =
         [<CompiledName("findByTestIdAs")>]
         member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1951,11 +1394,7 @@ module Bindings =
         [<CompiledName("findByTestIdAs")>]
         member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1964,11 +1403,7 @@ module Bindings =
         [<CompiledName("findByTestIdAs")>]
         member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1976,11 +1411,7 @@ module Bindings =
         [<CompiledName("findAllByTestIdAs")>]
         member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1988,11 +1419,7 @@ module Bindings =
         [<CompiledName("findAllByTestIdAs")>]
         member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2000,11 +1427,7 @@ module Bindings =
         [<CompiledName("findAllByTestIdAs")>]
         member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<'Element>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<'Element>(!^ matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
 
         // Generics
@@ -2015,61 +1438,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -2078,63 +1477,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2145,11 +1520,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2158,11 +1529,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2171,11 +1538,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2183,11 +1546,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2195,11 +1554,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2207,11 +1562,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByLabelText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -2219,61 +1570,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
     
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
     
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -2282,63 +1609,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
     
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2349,11 +1652,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2362,11 +1661,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2375,11 +1670,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2387,11 +1678,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2399,11 +1686,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2411,11 +1694,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByPlaceholderText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -2423,61 +1702,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -2486,63 +1741,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2553,11 +1784,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2566,11 +1793,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2579,11 +1802,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2591,11 +1810,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2603,11 +1818,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2615,11 +1826,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByAltText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
 
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -2627,61 +1834,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -2690,63 +1873,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2757,11 +1916,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2770,11 +1925,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2783,11 +1934,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2795,11 +1942,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByText (matcher: string, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2807,11 +1950,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2819,11 +1958,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByText<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -2831,61 +1966,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -2894,63 +2005,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2961,11 +2048,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2974,11 +2057,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2987,11 +2066,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2999,11 +2074,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTitle (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3011,11 +2082,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3023,11 +2090,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTitle<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
 
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -3035,61 +2098,37 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -3098,63 +2137,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -3165,11 +2180,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3178,11 +2189,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3191,11 +2198,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3203,11 +2206,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3215,11 +2214,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3227,11 +2222,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByDisplayValue<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -3239,81 +2230,49 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.getByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.getByRole<HTMLElement>(!^role)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.getAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.getAllByRole<HTMLElement>(!^role)
-            #endif
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
@@ -3321,84 +2280,52 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.queryByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.queryByRole<HTMLElement>(!^role)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.queryAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.queryAllByRole<HTMLElement>(!^role)
-            #endif
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
@@ -3408,11 +2335,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3421,11 +2344,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3434,11 +2353,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3447,11 +2362,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.findByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.findByRole<HTMLElement>(!^role)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3459,11 +2370,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3471,11 +2378,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3483,11 +2386,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3495,72 +2394,44 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            #if JAVASCRIPT
-            queryApi.findAllByRole<HTMLElement>(WebSharper.JavaScript.Pervasives.As role)
-            #else
             queryApi.findAllByRole<HTMLElement>(!^role)
-            #endif
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.getAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -3569,63 +2440,39 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.queryAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -3636,11 +2483,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3649,11 +2492,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -3662,11 +2501,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3674,11 +2509,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTestId (matcher: string, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3686,11 +2517,7 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -3698,16 +2525,15 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
-            #if JAVASCRIPT
-            queryApi.findAllByTestId<HTMLElement>(WebSharper.JavaScript.Pervasives.As matcher, ?options = options)
-            #else
             queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
-            #endif
             |> Promise.map List.ofSeq
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type RenderImport =
         #if JAVASCRIPT
-        [<WebSharper.Inline("$this($reactElement, $options)")>]
+        [<WebSharper.Inline("$this($reactElement, $options ? $options : {})")>]
         #else 
         [<Emit("$0($1)")>]
         #endif
@@ -3718,6 +2544,9 @@ module Bindings =
     #endif
     let renderImport : RenderImport = import "render" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type render<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> (render: Render<'BaseElement,'Container>) =
         inherit queriesForElement(render)
 
@@ -3787,7 +2616,10 @@ module Bindings =
         | Some clickProps, None -> {| clickInit = createObj !!clickProps |} |> toPlainJsObj |> Some
         | None, Some changeProps -> {| changeInit = createObj !!changeProps |} |> toPlainJsObj |> Some
         | None, None -> None
-
+    
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type UserEventImport =
         abstract clear: element:#HTMLElement -> unit
         abstract click: element:#HTMLElement * ?eventInit:obj * ?options:obj -> unit
@@ -3837,6 +2669,9 @@ module Bindings =
     #endif
     let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type WaitFor =
         #if JAVASCRIPT
         [<WebSharper.Inline("$callback($options)")>]
@@ -3849,6 +2684,9 @@ module Bindings =
     #endif
     let waitForImport : WaitFor = import "waitFor" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type WaitForElementToBeRemoved =
         #if JAVASCRIPT
         [<WebSharper.Inline("$callback($options)")>]
@@ -3868,6 +2706,9 @@ module Bindings =
     #endif
     let waitForElementToBeRemovedImport : WaitForElementToBeRemoved = import "waitForElementToBeRemoved" "@testing-library/react"
 
+    #if JAVASCRIPT
+    [<WebSharper.Stub>]
+    #endif
     type Within =
         #if JAVASCRIPT
         [<WebSharper.Inline("$this($node)")>]

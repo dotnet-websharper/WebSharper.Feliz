@@ -2,5 +2,6 @@
   "$schema": "https://websharper.com/wsconfig.schema.json",
   "project": "proxy",
   "proxyTargetName": "Feliz.UseMediaQuery",
-  "standAlone": true
+  "standAlone": true,
+  "stubInterfaces": true
 }

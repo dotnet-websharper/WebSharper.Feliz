@@ -451,9 +451,7 @@ type React =
     /// </summary>
     /// <param name='contextObject'>A context object returned from a previous React.createContext call.</param>
     /// <param name='render'>A render function that returns a sequence of elements.</param>
-    static member contextConsumer(
-        contextObject: Fable.React.IContext<'a>, 
-        render: 'a -> #seq<Feliz.ReactElement>) : Feliz.ReactElement =
+    static member contextConsumer(contextObject: Fable.React.IContext<'a>, render: 'a -> #seq<Feliz.ReactElement>) : Feliz.ReactElement =
         Interop.reactApi.createElement(contextObject?Consumer, null, [!!(render >> React.fragment)])
 
     /// <summary>
