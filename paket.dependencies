@@ -8,6 +8,7 @@ group WebSharper
     storage: none
 
     nuget Fable.Promise
+    nuget Fable.React.Types >= 18.1.0
     nuget WebSharper prerelease
     nuget WebSharper.FSharp prerelease
     nuget WebSharper.Browser.Dom prerelease

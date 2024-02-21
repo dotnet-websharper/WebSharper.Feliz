@@ -5,4 +5,5 @@ WebSharper.Browser.Event
 WebSharper.Fable.Core
 WebSharper.FSharp
 WebSharper.React
+Fable.React.Types
 FSharp.Core

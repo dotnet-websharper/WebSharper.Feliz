@@ -8,8 +8,5 @@
     <Compile Include="ReactComponentProxy.fs" />
     <Compile Include="HookProxy.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
-  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

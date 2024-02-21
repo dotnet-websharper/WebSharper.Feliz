@@ -32,7 +32,7 @@ module internal ReactProxies =
             Unchecked.defaultof<Fable.React.IReactExports>
         
     [<Proxy(typeof<Fable.React.ReactElement>)>]
-    type ReactElementProxy = React.React.Element
+    type ReactElementProxy = interface end
 
     [<Proxy(typeof<Fable.React.IRefValue<_>>)>]
     type IRefValue<'T> = 
@@ -42,7 +42,7 @@ module internal ReactProxies =
     type IContextProxy<'T> = interface end
     
     [<Proxy(typeof<Fable.React.ReactElementType<_>>)>]
-    type ElTypeProxy<'T> = WebSharper.React.React.ElementType<'T>
+    type ElTypeProxy<'T> = interface end
         
     [<Proxy(typeof<Fable.React.IReactExports>);Stub>]
     type ReactExportsProxy =

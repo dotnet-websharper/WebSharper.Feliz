@@ -18,19 +18,10 @@ module Bindings =
     type Matcher =
         U3<string, Regex, string * HTMLElement -> bool>
     
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let act : (unit -> unit) -> unit  = import "act" "@testing-library/react"
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let configure : IConfigureOptions -> unit = import "configure" "@testing-library/react"
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let cleanup : unit -> unit = import "cleanup" "@testing-library/react"
 
     #if JAVASCRIPT
@@ -121,9 +112,6 @@ module Bindings =
         abstract waiting: node: #HTMLElement * ?eventProperties:obj -> Event
         abstract wheel: node: #HTMLElement * ?eventProperties:obj -> MouseEvent
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let createEvent: CreateEvent = import "createEvent" "@testing-library/react"
 
     #if JAVASCRIPT
@@ -221,9 +209,6 @@ module Bindings =
         abstract waiting: node: #HTMLElement * ?eventProperties:obj -> unit
         abstract wheel: node: #HTMLElement * ?eventProperties:obj -> unit
     
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let fireEvent : FireEvent = import "fireEvent" "@testing-library/react"
 
     let getNodeText<'Element when 'Element :> HTMLElement> : 'Element -> string = import "getNodeText" "@testing-library/react"
@@ -245,9 +230,9 @@ module Bindings =
         #endif
         abstract invoke<'Element when 'Element :> HTMLElement> : node:'Element * ?maxLength: int * ?options:IPrettyDOMOptions -> string
     
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
+    // #if JAVASCRIPT
+    // [<WebSharper.Inline>]
+    // #endif
     let prettyDOMImport : PrettyDOM = import "prettyDOM" "@testing-library/react"
 
     #if JAVASCRIPT
@@ -331,9 +316,6 @@ module Bindings =
         abstract rerender: ReactElement -> unit
         abstract unmount: unit -> unit
         
-    #if JAVASCRIPT
-    [<WebSharper.Stub>]
-    #endif
     type queriesForElement (queryApi: QueriesForElement) =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
@@ -2533,20 +2515,14 @@ module Bindings =
     #endif
     type RenderImport =
         #if JAVASCRIPT
-        [<WebSharper.Inline("$this($reactElement, $options ? $options : {})")>]
+        [<WebSharper.Inline("$import($reactElement, $options ? $options : {})");WebSharper.Import("render","@testing-library/react")>]
         #else 
         [<Emit("$0($1)")>]
         #endif
         abstract invoke<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> : reactElement:ReactElement * ?options:obj -> Render<'BaseElement,'Container>
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let renderImport : RenderImport = import "render" "@testing-library/react"
 
-    #if JAVASCRIPT
-    [<WebSharper.Stub>]
-    #endif
     type render<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> (render: Render<'BaseElement,'Container>) =
         inherit queriesForElement(render)
 
@@ -2664,9 +2640,6 @@ module Bindings =
         abstract upload: #HTMLElement * Browser.Types.File * ?options: obj -> unit
         abstract upload: #HTMLElement * ResizeArray<Browser.Types.File> * ?options: obj -> unit
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 
     #if JAVASCRIPT
@@ -2679,9 +2652,6 @@ module Bindings =
         [<Emit("$0($1)")>]
         abstract invoke: callback: (unit -> unit) * ?options: IWaitOptions -> JS.Promise<unit>
     
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let waitForImport : WaitFor = import "waitFor" "@testing-library/react"
 
     #if JAVASCRIPT
@@ -2701,9 +2671,6 @@ module Bindings =
         #endif
         abstract invoke: callback: (unit -> ResizeArray<#HTMLElement>) * ?options: IWaitOptions -> JS.Promise<unit>
 
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
     let waitForElementToBeRemovedImport : WaitForElementToBeRemoved = import "waitForElementToBeRemoved" "@testing-library/react"
 
     #if JAVASCRIPT
@@ -2716,7 +2683,5 @@ module Bindings =
         [<Emit("$0($1)")>]
         #endif
         abstract invoke<'Element when 'Element :> HTMLElement> : node:'Element -> QueriesForElement
-    #if JAVASCRIPT
-    [<WebSharper.Inline>]
-    #endif
+
     let withinImport : Within = import "within" "@testing-library/react"

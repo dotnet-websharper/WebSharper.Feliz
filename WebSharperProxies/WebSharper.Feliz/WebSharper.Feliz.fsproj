@@ -31,7 +31,7 @@
     <None Include="wsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../Feliz/Feliz.fsproj" />
+    <ProjectReference Include="..\WebSharper.Feliz.CompilerPlugins\WebSharper.Feliz.CompilerPlugins.fsproj" />
   </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
