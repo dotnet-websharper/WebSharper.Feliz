@@ -63,15 +63,17 @@ module Interop =
     [<WebSharper.Inline>]
     #endif
     let reactApi : IReactApi = importDefault "react"
-    #if (FABLE_COMPILER_3 || FABLE_COMPILER_4)
+    #if FABLE_COMPILER_3 || FABLE_COMPILER_4
     let inline reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
-    #elif JAVASCRIPT
-    // let reactElementImport : string * 'a -> ReactElement = import "createElement" "react"
+    #else
+    #if JAVASCRIPT
+    // let reactElementImport : string * 'a -> ReactElement = import "createElement" react
     // let reactElement (name: string) (props: 'a) = reactElementImport(name, props)
     [<WebSharper.Inline("$import($name,$props?$props:{})");WebSharper.Import("createElement","react")>]
     let reactElement (name: string) (props: 'a) : ReactElement = import "createElement" "react"
     #else
     let reactElement (name: string) (props: 'a) : Feliz.ReactElement = import "createElement" "react"
+    #endif
     #endif
     let inline mkAttr (key: string) (value: obj) : IReactProperty = unbox (key, value)
     // let undefined : obj = jsNative // ws error if not uncommented, doesn't break anything though
