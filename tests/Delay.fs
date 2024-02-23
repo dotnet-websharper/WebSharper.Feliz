@@ -78,7 +78,7 @@ let delayTests = testList "Feliz.Delay Tests" [
                 Expect.isTrue (render.queryByTestId "fallback" |> Option.isNone) "Fallback is no longer rendered"
                 Expect.isTrue (render.queryByTestId "render" |> Option.isSome) "Child is now rendered"
             #if JAVASCRIPT
-            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync // TODO: check generated js+fix
             #else
             |> Async.AwaitPromise
             #endif
@@ -97,7 +97,7 @@ let delayTests = testList "Feliz.Delay Tests" [
                 Expect.isTrue (render.queryByTestId "render" |> Option.isSome) "Child is now rendered"
                 Expect.isTrue (render.queryByTestId "async-load" |> Option.isNone) "Suspense child is still not rendered"
             #if JAVASCRIPT
-            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync // TODO: check generated js+fix
             #else
             |> Async.AwaitPromise
             #endif
@@ -111,7 +111,7 @@ let delayTests = testList "Feliz.Delay Tests" [
                 Expect.isTrue (render.queryByTestId "async-load" |> Option.isSome) "Suspense child is now rendered"
                 
             #if JAVASCRIPT
-            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync
+            |> WebSharper.JavaScript.Pervasives.As |> WebSharper.JavaScript.Promise.AsAsync // TODO: check generated js+fix
             #else
             |> Async.AwaitPromise
             #endif
