@@ -9,6 +9,9 @@ open Fable.Mocha
 open Fable.Core
 open Fable.ReactTestingLibrary
 
+#if JAVASCRIPT
+[<WebSharper.JavaScript true>]
+#endif
 type IRenderer =
     inherit IDisposable
     abstract Container : unit -> HTMLElement
