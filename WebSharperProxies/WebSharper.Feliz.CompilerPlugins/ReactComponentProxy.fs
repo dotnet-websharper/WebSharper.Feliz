@@ -196,5 +196,5 @@ type ReactComponentMacro() =
 [<JavaScript(false)>]
 [<Macro(typeof<ReactComponentMacro>)>]
 [<Generated(typeof<ReactComponentGenerator>)>]
-type ReactComponentAttribute() =
+type ReactComponentAttribute(?exportDefault: bool, ?import: string, ?from:string, ?memo: bool) =
     inherit System.Attribute()

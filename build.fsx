@@ -46,7 +46,7 @@ Target.create "PrePackaging" <| fun _ ->
             // "Feliz.CompilerPlugins"
             "Feliz"
             "Feliz.Delay"
-            "Feliz.Kawaii"
+            // "Feliz.Kawaii"
             // "Feliz.Listeners"
             "Feliz.Markdown"
             "Feliz.PigeonMaps"
