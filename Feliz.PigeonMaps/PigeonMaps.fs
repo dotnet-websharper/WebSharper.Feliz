@@ -19,11 +19,21 @@ type PigeonMaps =
     static member inline map (properties: IReactProperty list) =
         // use defaults with center at Madrid and zoom at the whole world
         // this is because pigeon maps throws an exception when center isn't provided
-        let defaults = createObj [
-            "center" ==> [| 40.416775; -3.703790 |]
-            "zoom" ==> 3
-            unbox map.provider.openStreetMap
-        ]
+        let defaults = 
+#if JAVASCRIPT
+            let (k, mapper) : string * (float -> float -> float -> int -> string) = map.provider.openStreetMap |> unbox
+            createObj [
+                "center" ==> [| 40.416775; -3.703790 |]
+                "zoom" ==> 3
+                unbox <| map.provider mapper
+            ]
+#else
+            createObj [
+                "center" ==> [| 40.416775; -3.703790 |]
+                "zoom" ==> 3
+                unbox map.provider.openStreetMap
+            ]
+#endif
 
         Interop.reactApi.createElement(import "Map" "pigeon-maps", Interop.objectAssign defaults (createObj !!properties))
     static member inline marker (properties: IReactProperty list) =

@@ -64,7 +64,11 @@ type React =
 
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline fragment xs =
+#if JAVASCRIPT
+        Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, WebSharper.JavaScript.Pervasives.New [], xs |> Array.ofSeq)
+#else
         Fable.React.ReactBindings.React.createElement(Fable.React.ReactBindings.React.Fragment, obj(), xs)
+#endif
         
     /// The `React.fragment` component lets you return multiple elements in your `render()` method without creating an additional DOM element.
     static member inline keyedFragment(key: int, xs) = // Fable.React.Helpers.fragment [ !!("key", key) ] xs

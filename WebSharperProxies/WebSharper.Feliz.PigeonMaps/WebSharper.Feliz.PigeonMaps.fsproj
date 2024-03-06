@@ -8,6 +8,10 @@
     <Compile Include="..\..\Feliz.PigeonMaps\Map.fs" />
     <Compile Include="..\..\Feliz.PigeonMaps\Marker.fs" />
     <Compile Include="..\..\Feliz.PigeonMaps\PigeonMaps.fs" />
+    <Compile Include="Resources.fs" />
+    <EmbeddedResource Include="..\..\Feliz.PigeonMaps\Marker.js">
+      <LogicalName>Marker.js</LogicalName>
+    </EmbeddedResource>
     <None Include="Readme.md" />
     <None Include="wsconfig.json" />
   </ItemGroup>
@@ -17,7 +21,7 @@
     </NpmDependencies>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Feliz.PigeonMaps\Feliz.PigeonMaps.fsproj" />
+    <ProjectReference Include="..\..\Feliz\Feliz.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../WebSharper.Feliz/WebSharper.Feliz.fsproj" />
