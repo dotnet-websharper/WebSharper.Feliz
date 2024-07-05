@@ -217,3 +217,5 @@ websharper.log
 build/*.nupkg
 build/AssemblyInfo.fs
 build/versions.txt
+
+WebSharperProxies/WebSharper.FelizTests/wwwroot/Scripts/

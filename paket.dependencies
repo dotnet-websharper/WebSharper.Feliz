@@ -21,7 +21,7 @@ group WebSharper
     nuget Fable.Elmish 4.0.2
     
 group wsbuild
-    git https://github.com/dotnet-websharper/build-script websharper50
+    git https://github.com/dotnet-websharper/build-script websharper80
 
 
 group Main
