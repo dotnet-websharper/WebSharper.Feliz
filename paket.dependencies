@@ -31,7 +31,7 @@ group Main
 
     nuget Fable.Browser.Dom
     nuget Fable.Core
-nuget Fable.Elmish.React 4.0.0-beta-4 beta
+    nuget Fable.Elmish.React 4.0.0-beta-4 beta
     nuget Fable.Mocha
     nuget Fable.React.Types >= 18.1.0
     nuget Fable.SimpleHttp

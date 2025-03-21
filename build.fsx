@@ -34,6 +34,26 @@ let LazyVersionFrom packageName =
 let WithProjects projects args =
     { args with BuildAction = Projects projects }
 
+Target.create "WS-Feliz-Update" <| fun _ ->
+    let depsFile = Paket.DependenciesFile.ReadFromFile "./paket.dependencies"
+    let mainGroup = depsFile.GetGroup (Paket.Domain.GroupName "WebSharper")
+    let needsUpdate =
+        mainGroup.Packages
+        |> Seq.exists (fun { Name = pkg } ->
+            pkg.Name.Contains "WebSharper")
+    if needsUpdate then
+        let res =
+            DotNet.exec id "paket"
+                (sprintf "update -g %s" mainGroup.Name.Name)
+        if not res.OK then failwith "dotnet paket update failed"
+    for g, _ in depsFile.Groups |> Map.toSeq do
+        if g.Name.ToLower().StartsWith("test") then
+            let res =
+                DotNet.exec id "paket"
+                    (sprintf "update -g %s" g.Name)
+            if not res.OK then failwith "dotnet paket update failed"
+
+
 Target.create "PrePackaging" <| fun _ ->
     let files =
         [
@@ -148,6 +168,7 @@ let targets =
     |> MakeTargets
 
 "PrePackaging" ==> "WS-Package"
+"WS-Clean" ==> "WS-Feliz-Update" ==> "WS-Update"
 
 targets
 |> RunTargets
