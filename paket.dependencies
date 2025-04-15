@@ -9,15 +9,15 @@ group WebSharper
 
     nuget Fable.Promise
     nuget Fable.React.Types >= 18.1.0
-    nuget WebSharper prerelease
-    nuget WebSharper.FSharp prerelease
-    nuget WebSharper.Browser.Dom prerelease
-    nuget WebSharper.Browser.Event prerelease
-    nuget WebSharper.Fable.Core prerelease
-    nuget WebSharper.Browser.MediaQueryList prerelease
-    nuget WebSharper.React prerelease
-    nuget WebSharper.Fable.Elmish prerelease
-    nuget WebSharper.Fable.Mocha prerelease
+    nuget WebSharper ~> 8.0
+    nuget WebSharper.FSharp ~> 8.0
+    nuget WebSharper.Browser.Dom ~> 8.0
+    nuget WebSharper.Browser.Event ~> 8.0
+    nuget WebSharper.Fable.Core ~> 8.0
+    nuget WebSharper.Browser.MediaQueryList ~> 8.0
+    nuget WebSharper.React ~> 8.0
+    nuget WebSharper.Fable.Elmish ~> 8.0
+    nuget WebSharper.Fable.Mocha ~> 8.0
     nuget Fable.Elmish 4.0.2
     
 group wsbuild
